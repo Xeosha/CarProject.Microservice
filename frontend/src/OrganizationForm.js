@@ -8,7 +8,7 @@ function OrganizationForm() {
 
     const handleConnection = async () => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl('http://localhost:5128/notificationHub?userId=2')
+            .withUrl('https://localhost:6060/notificationHub?userId=2')
             .withAutomaticReconnect()
             .build();
 

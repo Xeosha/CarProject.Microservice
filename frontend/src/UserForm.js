@@ -12,7 +12,7 @@ function UserForm() {
 
     const handleConnection = async () => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl('http://localhost:5128/notificationHub?userId=1')
+            .withUrl('https://localhost:6060/notificationHub?userId=1')
             .withAutomaticReconnect()
             .build();
 
