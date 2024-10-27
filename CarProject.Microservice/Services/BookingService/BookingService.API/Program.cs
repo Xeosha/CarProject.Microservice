@@ -1,6 +1,7 @@
 using BookingService.API.Hubs;
 using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
+using BookingService.Infrastracture.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<IBookingService, BookingsService>();
+builder.Services.AddTransient<IConnectionManager, ConnectionManager>();
 
 builder.Services.AddCors(options =>
 {

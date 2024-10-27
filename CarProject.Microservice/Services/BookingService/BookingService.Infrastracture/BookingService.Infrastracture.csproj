@@ -10,7 +10,6 @@
     <Folder Include="Configurations\" />
     <Folder Include="Entities\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

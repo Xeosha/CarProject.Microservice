@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { HubConnectionBuilder } from "@microsoft/signalr";
 
 function OrganizationForm() {
     const [connection, setConnection] = useState(null);
     const [requests, setRequests] = useState([]);
-    const [userId, setUserId] = useState(null);
+    const [organizationId, setOrganizationId] = useState("");
 
     const handleConnection = async () => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl('https://localhost:6060/notificationHub?userId=2')
+            .withUrl(`https://localhost:6060/notificationHub?organizationId=${organizationId}`)
             .withAutomaticReconnect()
             .build();
 
-
-
-        newConnection.on('NotifyOrganization', (service) => {
-            setRequests(prev => [...prev, { userId: 1, service }]);
+        newConnection.on('NotifyOrganization', (userId, service) => {
+            // Добавляем userId в состояние requests
+            setRequests(prev => [...prev, { userId, service }]);
         });
 
         setConnection(newConnection);
@@ -27,7 +26,8 @@ function OrganizationForm() {
                 })
                 .catch(e => console.log('Connection failed: ', e));
         }
-    }
+    };
+
     const handleConfirmBooking = async (userId, isConfirmed) => {
         if (connection) {
             try {
@@ -41,11 +41,18 @@ function OrganizationForm() {
 
     return (
         <div>
+            <input
+                type="number"
+                placeholder="Organization Id"
+                value={organizationId}
+                onChange={(e) => setOrganizationId(e.target.value)}
+            />
             <button onClick={handleConnection}>Установить соединение</button>
             <h2>Organization Booking Requests</h2>
             {requests.map((req, index) => (
                 <div key={index}>
-                    <p>Service Requested: {req.service}</p>
+                    {/* Добавляем отображение userId рядом с сервисом */}
+                    <p>User ID: {req.userId}, Service Requested: {req.service}</p>
                     <button onClick={() => handleConfirmBooking(req.userId, true)}>Confirm</button>
                     <button onClick={() => handleConfirmBooking(req.userId, false)}>Decline</button>
                 </div>

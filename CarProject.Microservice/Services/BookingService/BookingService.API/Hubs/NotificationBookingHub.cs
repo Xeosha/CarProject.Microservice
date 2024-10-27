@@ -1,116 +1,130 @@
 ﻿using BookingService.Domain.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 
 namespace BookingService.API.Hubs
 {
     public interface IBookingClient
     {
-        Task NotifyOrganization(string service);
-
+        Task NotifyOrganization(int userId, string service);
         Task NotifyUser(bool isConfirmed);
     }
 
     public class NotificationBookingHub : Hub<IBookingClient>
     {
-        // Словарь для хранения соответствия между userId и connectionId
-        private static ConcurrentDictionary<string, string> _connections = new ConcurrentDictionary<string, string>();
         private readonly IBookingService _bookingService;
+        private readonly IConnectionManager _connectionManager;
         private readonly ILogger<NotificationBookingHub> _logger;
 
-        public NotificationBookingHub(IBookingService bookingService, ILogger<NotificationBookingHub> logger)
+        public NotificationBookingHub(IBookingService bookingService, IConnectionManager connectionManager, ILogger<NotificationBookingHub> logger)
         {
             _bookingService = bookingService;
+            _connectionManager = connectionManager;
             _logger = logger;
         }
 
         public override async Task OnConnectedAsync()
         {
-            // Получаем userId из параметров запроса при подключении
             var userId = Context.GetHttpContext().Request.Query["userId"];
+            _logger.LogInformation("userId: " + userId);
+            var organizationId = Context.GetHttpContext().Request.Query["organizationId"];
 
-            // Сохраняем соответствие между userId и connectionId
             if (!string.IsNullOrEmpty(userId))
             {
-                // Сохраняем соответствие между userId и connectionId
-                _connections[userId] = Context.ConnectionId;
-                _logger.LogInformation("соединение установлено: " + Context.ConnectionId);
-            } else
-            {
-                _logger.LogInformation("соединение не установлено");
+                await _connectionManager.ConnectUser(userId, Context.ConnectionId);
+                _logger.LogInformation("User connection established: " + Context.ConnectionId);
+
+                _logger.LogInformation($"User {userId} has connections: {string.Join(", ", _connectionManager.GetUserConnections(userId))}");
             }
 
-            
+            if (!string.IsNullOrEmpty(organizationId))
+            {
+                await _connectionManager.ConnectOrganization(organizationId, Context.ConnectionId);
+                _logger.LogInformation("Organization connection established: " + Context.ConnectionId);
+
+                _logger.LogInformation($"Organization {organizationId} has connections: {string.Join(", ", _connectionManager.GetOrganizationConnections(organizationId))}");
+            }
 
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            // Удаляем соединение из словаря при отключении
             var userId = Context.GetHttpContext().Request.Query["userId"];
-            _connections.TryRemove(userId, out _);
+            var organizationId = Context.GetHttpContext().Request.Query["organizationId"];
 
-            _logger.LogInformation("соединение разорвано: " + Context.ConnectionId);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                await _connectionManager.DisconnectUser(userId, Context.ConnectionId);
+                _logger.LogInformation("User connection removed: " + Context.ConnectionId);       
+            }
+
+            if (!string.IsNullOrEmpty(organizationId))
+            {
+                await _connectionManager.DisconnectOrganization(organizationId, Context.ConnectionId);
+                _logger.LogInformation("Organization connection removed: " + Context.ConnectionId);  
+            }
 
             await base.OnDisconnectedAsync(exception);
         }
 
         public async Task RequestBooking(int organizationId, int userId, string service)
         {
-            
-
             _logger.LogInformation("RequestBooking");
 
             try
             {
-
                 await _bookingService.CreateBooking(1, userId, organizationId, service);
-                if (_connections.TryGetValue(organizationId.ToString(), out var connectionId))
-                {
-                    await Clients.Client(connectionId).NotifyOrganization(service);
 
-                    _logger.LogInformation("connectionId " + Context.ConnectionId);
-                } else
+                var organizationConnections = _connectionManager.GetOrganizationConnections(organizationId.ToString());
+                if (organizationConnections != null)
                 {
-                    _logger.LogInformation("Не смог достать");
+                    foreach (var connectionId in organizationConnections)
+                    {
+                        await Clients.Client(connectionId).NotifyOrganization(userId, service);
+                    }
+                    _logger.LogInformation("Organization notified on multiple connections");
+                }
+                else
+                {
+                    _logger.LogInformation("Organization connection not found.");
                 }
             }
             catch (Exception ex)
             {
-                // Логирование ошибки
                 _logger.LogError(ex, "Failed to create booking for user {UserId}", userId);
-                throw; // Пробрасываем исключение, чтобы SignalR мог обработать его
+                throw;
             }
         }
 
-        // Метод для подтверждения или отклонения бронирования менеджером
         public async Task ConfirmBooking(int userId, int bookingId, bool isConfirmed)
         {
-            _logger.LogInformation("ConfirmBooking ");
+            _logger.LogInformation("ConfirmBooking for: " + userId);
 
             try
             {
                 var booking = await _bookingService.ConfirmBooking(bookingId, isConfirmed);
-                if (_connections.TryGetValue(userId.ToString(), out var connectionId))
-                {
-                    await Clients.Client(connectionId).NotifyUser(isConfirmed);
 
-                    _logger.LogInformation("connectionId " + Context.ConnectionId);
+                var userConnections = _connectionManager.GetUserConnections(userId.ToString());
+
+                if (userConnections != null)
+                {
+                    foreach (var connectionId in userConnections)
+                    {
+                        await Clients.Client(connectionId).NotifyUser(isConfirmed);
+                    }
+                    _logger.LogInformation("User notified on multiple connections");
+                }
+                else
+                {
+                    _logger.LogInformation("User connection not found.");
                 }
             }
             catch (Exception ex)
             {
-                // Логирование ошибки
-                _logger.LogError(ex, "Failed to create booking for user {UserId}", userId);
-                throw; // Пробрасываем исключение, чтобы SignalR мог обработать его
+                _logger.LogError(ex, "Failed to confirm booking for user {UserId}", userId);
+                throw;
             }
-            
         }
-
-
-
 
     }
 }

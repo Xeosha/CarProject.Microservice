@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { HubConnectionBuilder } from "@microsoft/signalr";
 
 function UserForm() {
@@ -11,13 +11,17 @@ function UserForm() {
 
 
     const handleConnection = async () => {
+
+        console.log(userId);
+
         const newConnection = new HubConnectionBuilder()
-            .withUrl('https://localhost:6060/notificationHub?userId=1')
+            .withUrl(`https://localhost:6060/notificationHub?userId=${userId}`)
             .withAutomaticReconnect()
             .build();
 
         newConnection.on('NotifyUser', (isConfirmed) => {
             setNotification(isConfirmed ? 'Booking confirmed!' : 'Booking declined.');
+            console.log("da")
         });
 
         setConnection(newConnection);
