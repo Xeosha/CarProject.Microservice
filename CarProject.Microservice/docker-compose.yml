@@ -4,3 +4,9 @@ services:
     build:
       context: .
       dockerfile: Services/BookingService/BookingService.API/Dockerfile
+
+  catalogservice.api:
+    image: ${DOCKER_REGISTRY-}catalogserviceapi
+    build:
+      context: .
+      dockerfile: Services/CatalogService/CatalogService.API/Dockerfile

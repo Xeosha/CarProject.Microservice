@@ -7,17 +7,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BookingService", "BookingSe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CatalogService", "CatalogService", "{4B0F0B72-7F7E-4E20-8A44-A9629250242F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingService.API", "Services\BookingService\BookingService.API\BookingService.API.csproj", "{550698DE-A84F-4F77-BA94-132EB0A690F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingService.API", "Services\BookingService\BookingService.API\BookingService.API.csproj", "{550698DE-A84F-4F77-BA94-132EB0A690F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.API", "Services\CatalogService\CatalogService.API\CatalogService.API.csproj", "{685BADE2-CF84-4930-9CC3-07DD87717252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.API", "Services\CatalogService\CatalogService.API\CatalogService.API.csproj", "{685BADE2-CF84-4930-9CC3-07DD87717252}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1FB22CBF-9F45-4205-889C-6957C2E6512D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingService.Domain", "Services\BookingService\BookingService.Domain\BookingService.Domain.csproj", "{8DA268AB-3601-4386-B200-56E35C4826FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingService.Domain", "Services\BookingService\BookingService.Domain\BookingService.Domain.csproj", "{8DA268AB-3601-4386-B200-56E35C4826FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingService.Application", "Services\BookingService\BookingService.Application\BookingService.Application.csproj", "{3AB83088-B3E4-4501-BBBB-C0C6EACF94E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingService.Application", "Services\BookingService\BookingService.Application\BookingService.Application.csproj", "{3AB83088-B3E4-4501-BBBB-C0C6EACF94E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingService.Infrastracture", "Services\BookingService\BookingService.Infrastracture\BookingService.Infrastracture.csproj", "{70275D99-DA03-49BD-B232-459D50E4A842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingService.Infrastracture", "Services\BookingService\BookingService.Infrastracture\BookingService.Infrastracture.csproj", "{70275D99-DA03-49BD-B232-459D50E4A842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Application", "Services\CatalogService\CatalogService.Application\CatalogService.Application.csproj", "{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Domain", "Services\CatalogService\CatalogService.Domain\CatalogService.Domain.csproj", "{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Infrastructure", "Services\CatalogService\CatalogService.Infrastructure\CatalogService.Infrastructure.csproj", "{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A71F98BD-8747-4879-AF3C-2A8C76C8054A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8C7F8607-171F-4745-A874-5A12EEC26523}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{79EC3230-7D95-4D0E-90DE-8797908B0E30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Constatns", "Constatns", "{88F857ED-1B76-4A44-83E2-047AE3DF78AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIGateway", "APIGateway", "{F2DAEDBB-A8D2-4A8B-8248-CDCDB6C3E440}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +65,18 @@ Global
 		{70275D99-DA03-49BD-B232-459D50E4A842}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70275D99-DA03-49BD-B232-459D50E4A842}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70275D99-DA03-49BD-B232-459D50E4A842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +87,12 @@ Global
 		{8DA268AB-3601-4386-B200-56E35C4826FD} = {1DD3CE62-C1D6-4271-97C0-9AF71689E092}
 		{3AB83088-B3E4-4501-BBBB-C0C6EACF94E6} = {1DD3CE62-C1D6-4271-97C0-9AF71689E092}
 		{70275D99-DA03-49BD-B232-459D50E4A842} = {1DD3CE62-C1D6-4271-97C0-9AF71689E092}
+		{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241} = {4B0F0B72-7F7E-4E20-8A44-A9629250242F}
+		{A581F7A8-AE21-4C7E-B014-85E3E4AEB199} = {4B0F0B72-7F7E-4E20-8A44-A9629250242F}
+		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA} = {4B0F0B72-7F7E-4E20-8A44-A9629250242F}
+		{8C7F8607-171F-4745-A874-5A12EEC26523} = {A71F98BD-8747-4879-AF3C-2A8C76C8054A}
+		{79EC3230-7D95-4D0E-90DE-8797908B0E30} = {8C7F8607-171F-4745-A874-5A12EEC26523}
+		{88F857ED-1B76-4A44-83E2-047AE3DF78AF} = {8C7F8607-171F-4745-A874-5A12EEC26523}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCC3AFAE-3DC0-4D18-BAD3-B8A628CA3CEF}

@@ -4,7 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "bookingservice.api": "StartDebugging"
+        "bookingservice.api": "StartDebugging",
+        "catalogservice.api": "StartDebugging"
       }
     }
   }
