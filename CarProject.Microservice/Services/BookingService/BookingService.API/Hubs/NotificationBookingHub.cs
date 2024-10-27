@@ -1,64 +1,116 @@
-﻿using BookingService.Domain.Models;
+﻿using BookingService.Domain.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using System.Text.Json;
 
 namespace BookingService.API.Hubs
 {
     public interface IBookingClient
     {
-        Task NotifyBookingStatus(Booking Booking);
+        Task NotifyOrganization(string service);
+
+        Task NotifyUser(bool isConfirmed);
     }
 
     public class NotificationBookingHub : Hub<IBookingClient>
     {
+        // Словарь для хранения соответствия между userId и connectionId
         private static ConcurrentDictionary<string, string> _connections = new ConcurrentDictionary<string, string>();
+        private readonly IBookingService _bookingService;
+        private readonly ILogger<NotificationBookingHub> _logger;
 
-        public async Task JoinBookingGroup(Booking connection)
+        public NotificationBookingHub(IBookingService bookingService, ILogger<NotificationBookingHub> logger)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, connection.BookingId.ToString());
-
-            var stringConnection = JsonSerializer.Serialize(connection);
-
-            await _cache.SetStringAsync(Context.ConnectionId, stringConnection);
-
-            await Clients
-                .Group(connection.BookingId.ToString())
-                .NotifyBookingStatus(connection);
+            _bookingService = bookingService;
+            _logger = logger;
         }
 
-        public async Task Notificate(Booking booking)
+        public override async Task OnConnectedAsync()
         {
-            var stringConnection = await _cache.GetAsync(Context.ConnectionId);
+            // Получаем userId из параметров запроса при подключении
+            var userId = Context.GetHttpContext().Request.Query["userId"];
 
-            var connection = JsonSerializer.Deserialize<Booking>(stringConnection);
-
-            if (connection is not null)
+            // Сохраняем соответствие между userId и connectionId
+            if (!string.IsNullOrEmpty(userId))
             {
-                await Clients
-                    .Group(connection.BookingId.ToString())
-                    .NotifyBookingStatus(connection);
+                // Сохраняем соответствие между userId и connectionId
+                _connections[userId] = Context.ConnectionId;
+                _logger.LogInformation("соединение установлено: " + Context.ConnectionId);
+            } else
+            {
+                _logger.LogInformation("соединение не установлено");
             }
+
+            
+
+            await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var stringConnection = await _cache.GetAsync(Context.ConnectionId);
-            var connection = JsonSerializer.Deserialize<Booking>(stringConnection);
+            // Удаляем соединение из словаря при отключении
+            var userId = Context.GetHttpContext().Request.Query["userId"];
+            _connections.TryRemove(userId, out _);
 
-            if (connection is not null)
-            {
-                await _cache.RemoveAsync(Context.ConnectionId);
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, connection.BookingId.ToString());
-
-                await Clients
-                    .Group(connection.BookingId.ToString())
-                    .NotifyBookingStatus(connection);
-            }
+            _logger.LogInformation("соединение разорвано: " + Context.ConnectionId);
 
             await base.OnDisconnectedAsync(exception);
         }
+
+        public async Task RequestBooking(int organizationId, int userId, string service)
+        {
+            
+
+            _logger.LogInformation("RequestBooking");
+
+            try
+            {
+
+                await _bookingService.CreateBooking(1, userId, organizationId, service);
+                if (_connections.TryGetValue(organizationId.ToString(), out var connectionId))
+                {
+                    await Clients.Client(connectionId).NotifyOrganization(service);
+
+                    _logger.LogInformation("connectionId " + Context.ConnectionId);
+                } else
+                {
+                    _logger.LogInformation("Не смог достать");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                _logger.LogError(ex, "Failed to create booking for user {UserId}", userId);
+                throw; // Пробрасываем исключение, чтобы SignalR мог обработать его
+            }
+        }
+
+        // Метод для подтверждения или отклонения бронирования менеджером
+        public async Task ConfirmBooking(int userId, int bookingId, bool isConfirmed)
+        {
+            _logger.LogInformation("ConfirmBooking ");
+
+            try
+            {
+                var booking = await _bookingService.ConfirmBooking(bookingId, isConfirmed);
+                if (_connections.TryGetValue(userId.ToString(), out var connectionId))
+                {
+                    await Clients.Client(connectionId).NotifyUser(isConfirmed);
+
+                    _logger.LogInformation("connectionId " + Context.ConnectionId);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                _logger.LogError(ex, "Failed to create booking for user {UserId}", userId);
+                throw; // Пробрасываем исключение, чтобы SignalR мог обработать его
+            }
+            
+        }
+
+
+
 
     }
 }

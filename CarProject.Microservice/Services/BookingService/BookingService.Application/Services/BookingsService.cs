@@ -7,20 +7,24 @@ namespace BookingService.Application.Services
     {
         //private readonly IBookingRepository _repository;
 
-        public async Task<Booking> GetBookingById(Guid bookingId)
+        public async Task<Booking> GetBookingById(int bookingId)
         {
             return new Booking();
         }
 
-        public async Task<Booking> CreateBooking(Booking request)
+        public async Task CreateBooking(int bookingId, int userId, int organizationId, string service)
         {
-            // Здесь логика сохранения в БД и генерации BookingId
-            
+            var booking = GetBookingById(bookingId);
 
-            return new Booking();
+            if (booking != null)
+            {
+                return;
+            }
+
+            return;
         }
 
-        public async Task<bool> ConfirmBooking(Guid bookingId, bool isConfirmed)
+        public async Task<bool> ConfirmBooking(int bookingId, bool isConfirmed)
         {
             // Логика обновления статуса в базе данных
 

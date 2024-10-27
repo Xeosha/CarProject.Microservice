@@ -1,7 +1,6 @@
+using BookingService.API.Hubs;
 using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
-using BookingService.Infrastracture.Services.SignalRClients;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +15,18 @@ builder.Services.AddSignalR();
 
 builder.Services.AddScoped<IBookingService, BookingsService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,12 +36,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHub<NotificationHub>("/notificationHub"); // Настройка маршрута для BookingHub
+app.MapHub<NotificationBookingHub>("/notificationHub"); // Настройка маршрута для BookingHub
 
 app.Run();

@@ -5,8 +5,8 @@ namespace BookingService.Domain.Interfaces
 {
     public interface IBookingService
     {
-        public Task<Booking> CreateBooking(Booking request);
-        public Task<bool> ConfirmBooking(Guid bookingId, bool isConfirmed);
-        public Task<Booking> GetBookingById(Guid bookingId);
+        public Task CreateBooking(int bookingId, int userId, int organizationId, string service);
+        public Task<bool> ConfirmBooking(int bookingId, bool isConfirmed);
+        public Task<Booking> GetBookingById(int bookingId);
     }
 }
