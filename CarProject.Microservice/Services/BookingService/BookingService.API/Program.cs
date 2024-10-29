@@ -1,7 +1,9 @@
 using BookingService.API.Hubs;
+using BookingService.API.Providers;
 using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
 using BookingService.Infrastracture.Services;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 builder.Services.AddScoped<IBookingService, BookingsService>();
 builder.Services.AddTransient<IConnectionManager, ConnectionManager>();
 

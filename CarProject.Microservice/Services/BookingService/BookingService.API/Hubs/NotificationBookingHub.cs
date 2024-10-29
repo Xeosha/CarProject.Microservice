@@ -12,36 +12,23 @@ namespace BookingService.API.Hubs
     public class NotificationBookingHub : Hub<IBookingClient>
     {
         private readonly IBookingService _bookingService;
-        private readonly IConnectionManager _connectionManager;
         private readonly ILogger<NotificationBookingHub> _logger;
 
-        public NotificationBookingHub(IBookingService bookingService, IConnectionManager connectionManager, ILogger<NotificationBookingHub> logger)
+        public NotificationBookingHub(IBookingService bookingService, ILogger<NotificationBookingHub> logger)
         {
             _bookingService = bookingService;
-            _connectionManager = connectionManager;
             _logger = logger;
         }
-
+            
         public override async Task OnConnectedAsync()
         {
-            var userId = Context.GetHttpContext().Request.Query["userId"];
+
+            var userId = Context.UserIdentifier;
             _logger.LogInformation("userId: " + userId);
-            var organizationId = Context.GetHttpContext().Request.Query["organizationId"];
 
             if (!string.IsNullOrEmpty(userId))
             {
-                await _connectionManager.ConnectUser(userId, Context.ConnectionId);
                 _logger.LogInformation("User connection established: " + Context.ConnectionId);
-
-                _logger.LogInformation($"User {userId} has connections: {string.Join(", ", _connectionManager.GetUserConnections(userId))}");
-            }
-
-            if (!string.IsNullOrEmpty(organizationId))
-            {
-                await _connectionManager.ConnectOrganization(organizationId, Context.ConnectionId);
-                _logger.LogInformation("Organization connection established: " + Context.ConnectionId);
-
-                _logger.LogInformation($"Organization {organizationId} has connections: {string.Join(", ", _connectionManager.GetOrganizationConnections(organizationId))}");
             }
 
             await base.OnConnectedAsync();
@@ -49,45 +36,27 @@ namespace BookingService.API.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var userId = Context.GetHttpContext().Request.Query["userId"];
-            var organizationId = Context.GetHttpContext().Request.Query["organizationId"];
+            var userId = Context.UserIdentifier;
 
             if (!string.IsNullOrEmpty(userId))
             {
-                await _connectionManager.DisconnectUser(userId, Context.ConnectionId);
                 _logger.LogInformation("User connection removed: " + Context.ConnectionId);       
-            }
-
-            if (!string.IsNullOrEmpty(organizationId))
-            {
-                await _connectionManager.DisconnectOrganization(organizationId, Context.ConnectionId);
-                _logger.LogInformation("Organization connection removed: " + Context.ConnectionId);  
             }
 
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task RequestBooking(int organizationId, int userId, string service)
+        public async Task RequestBooking(int organizationId, string service)
         {
+            var userId = Context.UserIdentifier;
+
             _logger.LogInformation("RequestBooking");
 
             try
             {
-                await _bookingService.CreateBooking(1, userId, organizationId, service);
-
-                var organizationConnections = _connectionManager.GetOrganizationConnections(organizationId.ToString());
-                if (organizationConnections != null)
-                {
-                    foreach (var connectionId in organizationConnections)
-                    {
-                        await Clients.Client(connectionId).NotifyOrganization(userId, service);
-                    }
-                    _logger.LogInformation("Organization notified on multiple connections");
-                }
-                else
-                {
-                    _logger.LogInformation("Organization connection not found.");
-                }
+                await _bookingService.CreateBooking(1, Int32.Parse(userId), organizationId, service);
+                await Clients.User(organizationId.ToString()).NotifyOrganization(Int32.Parse(userId), service);
+                _logger.LogInformation("Organization notified on multiple connections");
             }
             catch (Exception ex)
             {
@@ -103,21 +72,8 @@ namespace BookingService.API.Hubs
             try
             {
                 var booking = await _bookingService.ConfirmBooking(bookingId, isConfirmed);
-
-                var userConnections = _connectionManager.GetUserConnections(userId.ToString());
-
-                if (userConnections != null)
-                {
-                    foreach (var connectionId in userConnections)
-                    {
-                        await Clients.Client(connectionId).NotifyUser(isConfirmed);
-                    }
-                    _logger.LogInformation("User notified on multiple connections");
-                }
-                else
-                {
-                    _logger.LogInformation("User connection not found.");
-                }
+                await Clients.User(userId.ToString()).NotifyUser(isConfirmed);
+                _logger.LogInformation("User notified.");
             }
             catch (Exception ex)
             {
