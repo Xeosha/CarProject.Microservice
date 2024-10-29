@@ -24,6 +24,7 @@ namespace BookingService.API.Hubs
         {
 
             var userId = Context.UserIdentifier;
+
             _logger.LogInformation("userId: " + userId);
 
             if (!string.IsNullOrEmpty(userId))

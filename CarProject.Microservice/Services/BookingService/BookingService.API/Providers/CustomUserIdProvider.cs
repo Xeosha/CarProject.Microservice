@@ -7,7 +7,7 @@ namespace BookingService.API.Providers
         public string GetUserId(HubConnectionContext connection)
         {
             // Получаем userId из заголовков запроса
-            return connection.GetHttpContext()?.Request.Headers["userId"].ToString();
+             return connection.GetHttpContext()?.Request.Query["userId"].ToString();
         }
     }
 }

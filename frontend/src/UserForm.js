@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HubConnectionBuilder } from "@microsoft/signalr";
 
-function UserForm() {
+function UserForm(url) {
     const [connection, setConnection] = useState(null);
     const [service, setService] = useState([]);
     const [userId, setUserId] = useState([]);
@@ -42,7 +42,6 @@ function UserForm() {
                 await connection.invoke(
                     'RequestBooking',
                     parseInt(organizationId),
-                    parseInt(userId),
                     service );
                 setNotification('Booking request sent.');
             } catch (e) {

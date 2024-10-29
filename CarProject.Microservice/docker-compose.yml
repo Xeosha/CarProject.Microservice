@@ -4,9 +4,76 @@ services:
     build:
       context: .
       dockerfile: Services/BookingService/BookingService.API/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - bookingservice.db
+      - catalogservice.db
 
   catalogservice.api:
     image: ${DOCKER_REGISTRY-}catalogserviceapi
     build:
       context: .
       dockerfile: Services/CatalogService/CatalogService.API/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - bookingservice.db
+      - catalogservice.db
+
+  bookingservice.db:
+    restart: always
+    container_name: bookingservice.db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "bookingservicedb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123"
+    volumes:
+      - postgres-data-bookingservice:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  catalogservice.db:
+    restart: always
+    container_name: catalogservice.db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "catalogservicedb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123"
+    volumes:
+      - postgres-data-catalogservice:/var/lib/postgresql/data
+    ports:
+      - "3306:5432"
+    networks:
+      - backend
+
+  pgadmin:
+    restart: always
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: den.darknezz@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 123
+    ports:  
+      - "5050:80"
+    depends_on:
+      - bookingservice.db
+      - catalogservice.db
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - backend
+
+
+volumes:
+  postgres-data-bookingservice:
+  postgres-data-catalogservice:
+  pgadmin-data:
+
+networks:
+  backend:
+    driver: bridge

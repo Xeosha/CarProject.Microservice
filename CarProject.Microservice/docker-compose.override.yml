@@ -4,7 +4,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678;Encrypt=False;TrustServerCertificate=True
+      - ConnectionStrings__Database=User ID=postgres;Password=123;Host=bookingservice.db;Port=5432;Database=bookingservicedb
     ports:
       - "6000:8080"
       - "6060:8081"
@@ -16,7 +16,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_HTTPS_PORTS=8081 
+      - ConnectionStrings__CatalogServiceDbContext=User ID=postgres;Password=123;Host=catalogservice.db;Port=5432;Database=catalogservicedb
     ports:
       - "6001:8080"
       - "6061:8081"
