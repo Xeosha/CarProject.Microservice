@@ -1,4 +1,6 @@
-﻿namespace CatalogService.Domain.Interfaces.Repositories
+﻿using CatalogService.Domain.Interfaces.Models;
+
+namespace CatalogService.Domain.Interfaces.Repositories
 {
     public interface IServiceOrgRepository
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CatalogService.Domain.Interfaces.Models;
 
 namespace CatalogService.Domain.Interfaces.Repositories
 {
@@ -13,9 +9,5 @@ namespace CatalogService.Domain.Interfaces.Repositories
 
         public Task Update(long id, ServiceModel serviceModel);
         public Task<List<ServiceModel>> GetAll();
-
-
-
-
     }
 }

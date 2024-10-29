@@ -1,4 +1,8 @@
+using CatalogService.Application.Servicess;
+using CatalogService.Domain.Interfaces;
+using CatalogService.Domain.Interfaces.Repositories;
 using CatalogService.Infrastructure;
+using CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +22,11 @@ builder.Services.AddDbContext<CatalogServiceDbContext>(
 
         options.UseNpgsql(connectionString);
     });
+
+builder.Services.AddScoped<IOrganizationsRepository, OrganizationRepository>();
+builder.Services.AddScoped<IServiceOrgRepository, ServiceOrgRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddTransient<ICatalogServices, CatalogServices>();
 
 var app = builder.Build();
 
