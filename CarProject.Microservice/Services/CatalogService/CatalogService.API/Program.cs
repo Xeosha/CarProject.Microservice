@@ -28,6 +28,7 @@ builder.Services.AddDbContext<CatalogServiceDbContext>(
 builder.Services.AddScoped<IOrganizationsRepository, OrganizationRepository>();
 builder.Services.AddScoped<IServiceOrgRepository, ServiceOrgRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IDailyWorkingHoursRepository, DailyWorkingHoursRepository>();
 builder.Services.AddTransient<ICatalogServices, CatalogServices>();
 
 var app = builder.Build();
@@ -50,7 +51,7 @@ app.MapControllers();
 // если хочешь создать файл миграции:
 // dotnet ef migrations add Init -s Services/CatalogService/CatalogService.API/ -p Services/CatalogService/CatalogService.Infrastructure/
 using (var scope = app.Services.CreateScope())
-{   
+{
     var dbContext = scope.ServiceProvider.GetRequiredService<CatalogServiceDbContext>();
     // Обновляем базу данных, если есть миграции
     dbContext.Database.Migrate();

@@ -28,7 +28,7 @@ namespace CatalogService.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(Guid id)
         {
             var serviceOrg = await _context.ServiceOrganizations.FindAsync(id);
             if (serviceOrg != null)
@@ -38,7 +38,7 @@ namespace CatalogService.Infrastructure.Repositories
             }
         }
 
-        public async Task Update(long id, ServiceOrg serviceModel)
+        public async Task Update(Guid id, ServiceOrg serviceModel)
         {
             var existingServiceOrg = await _context.ServiceOrganizations.FindAsync(id);
             if (existingServiceOrg != null)

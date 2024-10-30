@@ -2,7 +2,9 @@ using BookingService.API.Hubs;
 using BookingService.API.Providers;
 using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
+using BookingService.Infrastracture;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,16 @@ builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 builder.Services.AddScoped<IBookingService, BookingsService>();
 
+// подключение к биде, конектион строки хранятся в docker-compose environment (переменные среды)
+builder.Services.AddDbContext<BookingServiceDbContext>(
+    options =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString("BookingServiceDbContext")
+                               ?? Environment.GetEnvironmentVariable("ConnectionStrings__BookingServiceDbContext");
+
+        options.UseNpgsql(connectionString);
+    });
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -28,6 +40,12 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowCredentials();
     });
+});
+
+// ссылка на микросервис
+builder.Services.AddHttpClient<ICatalogServiceClient, CatalogServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:6061"); 
 });
 
 
@@ -49,5 +67,15 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<NotificationBookingHub>("/notificationHub"); // Настройка маршрута для BookingHub
+
+// Код для выполнения миграции в бд
+// если хочешь создать файл миграции:
+// dotnet ef migrations add Init -s Services/BookingService/BookingService.API/ -p Services/BookingService/BookingService.Infrastracture/
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<BookingServiceDbContext>();
+    // Обновляем базу данных, если есть миграции
+    dbContext.Database.Migrate();
+}
 
 app.Run();

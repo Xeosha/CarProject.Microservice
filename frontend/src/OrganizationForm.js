@@ -31,7 +31,7 @@ function OrganizationForm() {
     const handleConfirmBooking = async (userId, isConfirmed) => {
         if (connection) {
             try {
-                await connection.invoke('ConfirmBooking', userId, 123, isConfirmed);
+                await connection.invoke('ConfirmBooking', userId, "8d5f7c20-5678-4f6d-a77a-8a2e9d3b7e91", isConfirmed);
                 setRequests(requests.filter(req => req.userId !== userId));
             } catch (e) {
                 console.error('Booking confirmation failed: ', e);
@@ -42,7 +42,7 @@ function OrganizationForm() {
     return (
         <div>
             <input
-                type="number"
+                type="text"
                 placeholder="Organization Id"
                 value={organizationId}
                 onChange={(e) => setOrganizationId(e.target.value)}

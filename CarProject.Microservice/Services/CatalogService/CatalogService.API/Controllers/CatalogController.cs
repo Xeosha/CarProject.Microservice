@@ -1,6 +1,7 @@
 ﻿
 using CatalogService.Domain.Interfaces;
 using CatalogService.Domain.Interfaces.Models;
+using CatalogService.Domain.Interfaces.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.API.Controllers
@@ -21,6 +22,12 @@ namespace CatalogService.API.Controllers
         public async Task<List<ServiceOrg>> GetServices()
         {
             return await _catalogServices.GetAllServices();
+        }
+
+        [HttpGet("getWorkingHours")]
+        public async Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId)
+        {
+            return await _catalogServices.GetWorkingHours(organizationServiceId);
         }
     }
 }

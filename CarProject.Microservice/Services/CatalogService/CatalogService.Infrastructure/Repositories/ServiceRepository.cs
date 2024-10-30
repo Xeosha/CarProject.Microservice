@@ -32,7 +32,7 @@ namespace CatalogService.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(Guid id)
         {
             var service = await _context.Services.FindAsync(id);
             if (service != null)
@@ -42,7 +42,7 @@ namespace CatalogService.Infrastructure.Repositories
             }
         }
 
-        public async Task Update(long id, ServiceModel serviceModel)
+        public async Task Update(Guid id, ServiceModel serviceModel)
         {
             var existingService = await _context.Services.FindAsync(id);
             if (existingService != null)

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CatalogService.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogServiceDbContext))]
-    [Migration("20241029180846_Init")]
+    [Migration("20241030085326_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace CatalogService.Infrastructure.Migrations
 
             modelBuilder.Entity("CatalogService.Infrastructure.Entites.OrganizationEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -52,11 +50,9 @@ namespace CatalogService.Infrastructure.Migrations
 
             modelBuilder.Entity("CatalogService.Infrastructure.Entites.ServiceEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -73,21 +69,19 @@ namespace CatalogService.Infrastructure.Migrations
 
             modelBuilder.Entity("CatalogService.Infrastructure.Entites.ServiceOrganizationEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("IdOrganization")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("IdOrganization")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("IdService")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("IdService")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Price")
                         .HasColumnType("integer");

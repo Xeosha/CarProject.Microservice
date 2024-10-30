@@ -39,9 +39,15 @@ function UserForm(url) {
         if (connection) {
             console.log(connection, service, userId, organizationId);
             try {
+                if (!/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(userId) ||
+                    !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(organizationId)) {
+                    setNotification('Invalid GUID format for userId or organizationId');
+                    return;
+                }
+
                 await connection.invoke(
                     'RequestBooking',
-                    parseInt(organizationId),
+                    organizationId,
                     service );
                 setNotification('Booking request sent.');
             } catch (e) {
@@ -55,13 +61,13 @@ function UserForm(url) {
             <button onClick={handleConnection}>Установить соединение</button>
             <h2>User Booking Form</h2>
             <input
-                type="number"
+                type="text"
                 placeholder="userId"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
             />
             <input
-                type="number"
+                type="text"
                 placeholder="Organization ID"
                 value={organizationId}
                 onChange={(e) => setOrganizationId(e.target.value)}

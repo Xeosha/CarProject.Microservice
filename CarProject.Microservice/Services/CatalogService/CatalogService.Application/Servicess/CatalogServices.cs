@@ -1,5 +1,6 @@
 ﻿using CatalogService.Domain.Interfaces;
 using CatalogService.Domain.Interfaces.Models;
+using CatalogService.Domain.Interfaces.Models.Dto;
 using CatalogService.Domain.Interfaces.Repositories;
 
 namespace CatalogService.Application.Servicess
@@ -10,15 +11,23 @@ namespace CatalogService.Application.Servicess
 
         private IServiceOrgRepository _serviceOrgRepository;
 
-        public CatalogServices(IServiceRepository serviceRepository, IServiceOrgRepository serviceOrgRepository)
+        private IDailyWorkingHoursRepository _dailyWorkingHoursRepository;
+
+        public CatalogServices(IServiceRepository serviceRepository, IServiceOrgRepository serviceOrgRepository, IDailyWorkingHoursRepository dailyWorkingHoursRepository)
         {
             _serviceRepository = serviceRepository;
             _serviceOrgRepository = serviceOrgRepository;
+            _dailyWorkingHoursRepository = dailyWorkingHoursRepository;
         }
 
         public async Task<List<ServiceOrg>> GetAllServices()
         {
             return await _serviceOrgRepository.GetAll();
+        }
+
+        public async Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId)
+        {
+            return await _dailyWorkingHoursRepository.GetAllTimes(organizationServiceId);
         }
     }
 }

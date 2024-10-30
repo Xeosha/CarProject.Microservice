@@ -1,6 +1,6 @@
 ﻿using BookingService.API.Hubs;
+using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
-using BookingService.Domain.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -11,43 +11,41 @@ namespace BookingService.API.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ICatalogServiceClient _catalogServiceClient;
         private readonly IBookingService _bookingService;
-        private readonly IHubContext<NotificationBookingHub, IBookingClient> _hubContext;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(IBookingService bookingService, IHubContext<NotificationBookingHub, IBookingClient> hubContext, ILogger<UserController> logger)
+        public UserController(
+            IBookingService bookingService, 
+            ILogger<UserController> logger,
+            ICatalogServiceClient catalogServiceClient
+            )
         {
             _bookingService = bookingService;
-            _hubContext = hubContext;
             _logger = logger;
+            _catalogServiceClient = catalogServiceClient;
         }
 
         [HttpPost("request")]
-        public async Task<IActionResult> RequestBooking([FromBody] RequestBookingDto request)
+        public async Task<IActionResult> RequestBooking()
         {
-            // Проверка входных данных
-            if (request == null || request.OrganizationId <= 0 || string.IsNullOrEmpty(request.Service))
-            {
-                return BadRequest("Invalid booking request.");
-            }
+            
+            return StatusCode(500, "Failed to create booking."); 
+        }
 
-            var userId = HttpContext.User.Identity.Name;  // Получаем userId из контекста
+        [HttpGet("available-times")]
+        public async Task<IActionResult> GetAvailableTimes([FromQuery] Guid organizationServiceId, DateTime date)
+        {
+            // Шаг 1: Запросить расписание и часы работы из CatalogService
+            var workingHours = await _catalogServiceClient.GetWorkingHours(organizationServiceId);
 
-            _logger.LogInformation("RequestBooking for userId: {UserId}", userId);
+            // Шаг 2: Получить существующие брони
+            var existingBookings = await _bookingService.GetBookings(organizationServiceId, date);
 
-            try
-            {
-                await _bookingService.CreateBooking(1, Int32.Parse(userId), request.OrganizationId, request.Service);
-                await _hubContext.Clients.User(request.OrganizationId.ToString()).NotifyOrganization(Int32.Parse(userId), request.Service);
+            // Шаг 3: Сформировать список доступных временных слотов
+            var availableSlots = _bookingService.CalculateAvailableSlots(workingHours, existingBookings);
 
-                _logger.LogInformation("Organization notified for booking request.");
-                return Ok("Booking request sent.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to create booking for user {UserId}", userId);
-                return StatusCode(500, "Failed to create booking.");
-            }
+            return Ok(availableSlots);
         }
     }
 }

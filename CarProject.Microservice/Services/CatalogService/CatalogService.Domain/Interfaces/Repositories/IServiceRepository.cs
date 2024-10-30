@@ -5,9 +5,9 @@ namespace CatalogService.Domain.Interfaces.Repositories
     public interface IServiceRepository
     {
         public Task Add(ServiceModel serviceModel);
-        public Task Delete(long id);
+        public Task Delete(Guid id);
 
-        public Task Update(long id, ServiceModel serviceModel);
+        public Task Update(Guid id, ServiceModel serviceModel);
         public Task<List<ServiceModel>> GetAll();
     }
 }

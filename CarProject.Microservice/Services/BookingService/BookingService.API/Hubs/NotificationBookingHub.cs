@@ -5,7 +5,7 @@ namespace BookingService.API.Hubs
 {
     public interface IBookingClient
     {
-        Task NotifyOrganization(int userId, string service);
+        Task NotifyOrganization(Guid userId, string service);
         Task NotifyUser(bool isConfirmed);
     }
 
@@ -47,7 +47,7 @@ namespace BookingService.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task RequestBooking(int organizationId, string service)
+        public async Task RequestBooking(string organizationId, string service)
         {
             var userId = Context.UserIdentifier;
 
@@ -55,8 +55,8 @@ namespace BookingService.API.Hubs
 
             try
             {
-                await _bookingService.CreateBooking(1, Int32.Parse(userId), organizationId, service);
-                await Clients.User(organizationId.ToString()).NotifyOrganization(Int32.Parse(userId), service);
+                await _bookingService.CreateBooking(new Guid(), Guid.Parse(userId), Guid.Parse(organizationId), service);
+                await Clients.User(organizationId.ToString()).NotifyOrganization(Guid.Parse(userId), service);
                 _logger.LogInformation("Organization notified on multiple connections");
             }
             catch (Exception ex)
@@ -65,14 +65,13 @@ namespace BookingService.API.Hubs
                 throw;
             }
         }
-
-        public async Task ConfirmBooking(int userId, int bookingId, bool isConfirmed)
+        public async Task ConfirmBooking(string userId, string bookingId, bool isConfirmed)
         {
             _logger.LogInformation("ConfirmBooking for: " + userId);
 
             try
             {
-                var booking = await _bookingService.ConfirmBooking(bookingId, isConfirmed);
+                var booking = await _bookingService.ConfirmBooking(Guid.Parse(bookingId), isConfirmed);
                 await Clients.User(userId.ToString()).NotifyUser(isConfirmed);
                 _logger.LogInformation("User notified.");
             }
