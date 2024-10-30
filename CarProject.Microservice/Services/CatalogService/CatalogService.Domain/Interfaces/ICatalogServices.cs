@@ -8,5 +8,7 @@ namespace CatalogService.Domain.Interfaces
     {
         public Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId);
         public Task<List<ServiceOrgDto>> GetAllServices();
+        public Task AddServiceToOrg(Guid orgId, Guid serviceId, int price, string description);
+
     }
 }

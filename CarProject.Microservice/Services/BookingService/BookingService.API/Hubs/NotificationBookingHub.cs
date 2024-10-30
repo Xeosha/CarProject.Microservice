@@ -47,7 +47,7 @@ namespace BookingService.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task RequestBooking(string organizationId, string serviceOrganizationId, DateTime bookingTime)
+        public async Task RequestBooking(string orgId, string serviceOrganizationId /* DateTime bookingTime */)
         {
             var userId = Context.UserIdentifier;
 
@@ -55,31 +55,34 @@ namespace BookingService.API.Hubs
 
             try
             {
-                var booking = await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(serviceOrganizationId), bookingTime);
+                var booking = await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(serviceOrganizationId), DateTime.UtcNow);
 
-                await Clients.User(organizationId.ToString()).Notify(booking);
+                await Clients.User(orgId).Notify(booking);
 
-                _logger.LogInformation("Organization notified on multiple connections");
+                _logger.LogInformation($"Organization notified {booking.BookingStatus}");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to create booking for user {UserId}", userId);
+
                 throw;
             }
         }
-        public async Task ConfirmBooking(string userId, string bookingId, bool isConfirmed)
+        public async Task ConfirmBooking(string bookingId, bool isConfirmed)
         {
-            _logger.LogInformation("ConfirmBooking for: " + userId);
+
+            _logger.LogInformation("ConfirmBooking for");
 
             try
             {
                 var booking = await _bookingService.ConfirmBooking(Guid.Parse(bookingId), isConfirmed);
-                await Clients.User(userId.ToString()).Notify(booking);
-                _logger.LogInformation("User notified.");
+                await Clients.User(booking.UserId.ToString()).Notify(booking);
+                _logger.LogInformation($"User notified {booking.BookingStatus}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to confirm booking for user {UserId}", userId);
+                _logger.LogError(ex, "Failed to confirm booking");
+
                 throw;
             }
         }

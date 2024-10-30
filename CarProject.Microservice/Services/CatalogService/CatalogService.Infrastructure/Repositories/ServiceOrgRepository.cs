@@ -19,7 +19,10 @@ namespace CatalogService.Infrastructure.Repositories
             // Преобразуйте модель в сущность
             var serviceOrgEntity = new ServiceOrganizationEntity
             {
-                // Присвойте свойства из serviceModel
+                Id = serviceModel.Id,
+                IdOrganization = serviceModel.IdOrganization,
+                IdService = serviceModel.IdService,
+                Price = serviceModel.Price, 
                 Description = serviceModel.Description,
                 // Присвойте остальные свойства
             };

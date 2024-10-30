@@ -7,6 +7,7 @@ function UserForm(url) {
     const [userId, setUserId] = useState([]);
     const [organizationId, setOrganizationId] = useState([]);
     const [notification, setNotification] = useState(null);
+    const serviceOrgId = "6408aaa9-d97f-4034-803f-4ceff1763fa9";
 
 
 
@@ -19,8 +20,9 @@ function UserForm(url) {
             .withAutomaticReconnect()
             .build();
 
-        newConnection.on('NotifyUser', (isConfirmed) => {
-            setNotification(isConfirmed ? 'Booking confirmed!' : 'Booking declined.');
+        newConnection.on('Notify', (booking) => {
+            console.log(booking.BookingStatus)
+            setNotification(booking.BookingStatus === 1 ? 'Booking confirmed!' : 'Booking declined.');
             console.log("da")
         });
 
@@ -37,7 +39,6 @@ function UserForm(url) {
 
     const handleBookingRequest = async () => {
         if (connection) {
-            console.log(connection, service, userId, organizationId);
             try {
                 if (!/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(userId) ||
                     !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(organizationId)) {
@@ -45,10 +46,10 @@ function UserForm(url) {
                     return;
                 }
 
-                await connection.invoke(
-                    'RequestBooking',
-                    organizationId,
-                    service );
+                console.log("Текстfwefewfwfewfwfweewf: " + organizationId + " " + serviceOrgId + " " );
+
+                await connection.invoke('RequestBooking', organizationId, serviceOrgId);
+
                 setNotification('Booking request sent.');
             } catch (e) {
                 console.error('Booking request failed: ', e);

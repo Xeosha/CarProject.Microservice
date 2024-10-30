@@ -12,9 +12,9 @@ function OrganizationForm() {
             .withAutomaticReconnect()
             .build();
 
-        newConnection.on('NotifyOrganization', (userId, service) => {
-            // Добавляем userId в состояние requests
-            setRequests(prev => [...prev, { userId, service }]);
+        newConnection.on('Notify', (booking) => {
+            // Добавляем booking в состояние requests
+            setRequests(prev => [...prev, { userId: booking.userId, serviceOrganizationId: booking.serviceOrganizationId, bookingId: booking.bookingId }]);
         });
 
         setConnection(newConnection);
@@ -31,7 +31,7 @@ function OrganizationForm() {
     const handleConfirmBooking = async (userId, isConfirmed) => {
         if (connection) {
             try {
-                await connection.invoke('ConfirmBooking', userId, "8d5f7c20-5678-4f6d-a77a-8a2e9d3b7e91", isConfirmed);
+                await connection.invoke('ConfirmBooking', "6408aaa9-d97f-4034-803f-4ceff1763fa9", isConfirmed);
                 setRequests(requests.filter(req => req.userId !== userId));
             } catch (e) {
                 console.error('Booking confirmation failed: ', e);

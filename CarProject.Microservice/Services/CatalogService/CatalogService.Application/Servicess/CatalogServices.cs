@@ -3,6 +3,8 @@ using CatalogService.Domain.Interfaces.Models;
 using CatalogService.Domain.Interfaces.Models.Dto;
 using CatalogService.Domain.Interfaces.Repositories;
 using ShareDTO;
+using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace CatalogService.Application.Servicess
 {
@@ -30,7 +32,18 @@ namespace CatalogService.Application.Servicess
         {
             return await _dailyWorkingHoursRepository.GetAllTimes(organizationServiceId);
         }
-
+        public async Task AddServiceToOrg(Guid orgId, Guid serviceId, int price, string description)
+        {
+            var model = new ServiceOrg()
+            {
+                Id = new Guid(),
+                IdOrganization = orgId,
+                IdService = serviceId,
+                Price = price,
+                Description = description
+            };
+            await _serviceOrgRepository.Add(model);
+        }
         public async Task<List<ServiceOrgDto>> GetAllServices()
         {
             // Получаем все записи ServiceOrg
