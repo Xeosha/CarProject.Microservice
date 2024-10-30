@@ -5,6 +5,7 @@ using BookingService.Domain.Interfaces;
 using BookingService.Infrastracture;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +46,8 @@ builder.Services.AddCors(options =>
 // ссылка на микросервис
 builder.Services.AddHttpClient<ICatalogServiceClient, CatalogServiceClient>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:6061"); 
+    client.BaseAddress = new Uri("https://catalogservice.api:6061/api/");
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 

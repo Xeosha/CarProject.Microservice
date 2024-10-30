@@ -33,9 +33,11 @@ namespace BookingService.API.Controllers
             return StatusCode(500, "Failed to create booking."); 
         }
 
-        [HttpGet("available-times")]
-        public async Task<IActionResult> GetAvailableTimes([FromQuery] Guid organizationServiceId, DateTime date)
+        [HttpGet("getAvailableTimes")]
+        public async Task<IActionResult> GetAvailableTimes([FromQuery] Guid organizationServiceId)
         {
+            DateTime date = DateTime.UtcNow; // 
+
             // Шаг 1: Запросить расписание и часы работы из CatalogService
             var workingHours = await _catalogServiceClient.GetWorkingHours(organizationServiceId);
 

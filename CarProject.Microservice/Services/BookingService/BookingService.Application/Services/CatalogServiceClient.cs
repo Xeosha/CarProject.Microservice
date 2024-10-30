@@ -15,11 +15,10 @@ namespace BookingService.Application.Services
 
         public async Task<WorkingHoursDto> GetWorkingHours(Guid organizationServiceId)
         {
-            var response = await _httpClient.GetAsync($"/workingHours/{organizationServiceId}");
+            var response = await _httpClient.GetAsync($"Catalog/getWorkingHours?organizationServiceId={organizationServiceId}");
 
             if (!response.IsSuccessStatusCode)
             {
-                // Обработка ошибки
                 throw new Exception("Не удалось получить рабочие часы из CatalogService");
             }
 
