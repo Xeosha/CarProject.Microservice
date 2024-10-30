@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// подключение к биде, конектион строки хранятся в docker-compose environment (переменные среды)
 builder.Services.AddDbContext<CatalogServiceDbContext>(
     options =>
     {
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<CatalogServiceDbContext>(
         options.UseNpgsql(connectionString);
     });
 
+// тут типа DI, надо бы вынести в слоях в классы
 builder.Services.AddScoped<IOrganizationsRepository, OrganizationRepository>();
 builder.Services.AddScoped<IServiceOrgRepository, ServiceOrgRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
@@ -30,7 +32,7 @@ builder.Services.AddTransient<ICatalogServices, CatalogServices>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// сваггер 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -46,7 +48,7 @@ app.MapControllers();
 
 // Код для выполнения миграции в бд
 // если хочешь создать файл миграции:
-// dotnet ef migrations add <Название без кавычек этих> -s src/TelegramBot.API/ -p src/TelegramBot.Data/
+// dotnet ef migrations add Init -s Services/CatalogService/CatalogService.API/ -p Services/CatalogService/CatalogService.Infrastructure/
 using (var scope = app.Services.CreateScope())
 {   
     var dbContext = scope.ServiceProvider.GetRequiredService<CatalogServiceDbContext>();
