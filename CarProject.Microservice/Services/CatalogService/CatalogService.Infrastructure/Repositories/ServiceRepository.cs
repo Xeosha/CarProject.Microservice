@@ -68,5 +68,17 @@ namespace CatalogService.Infrastructure.Repositories
                 })
                 .ToListAsync();
         }
+
+        public async Task<ServiceModel> GetById(Guid id)
+        {
+            var entity = await _context.Services.FindAsync(id);
+
+            return new ServiceModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+            };
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 
 namespace BookingService.Application.Services
 {
+    // По сути нужно перенести в слой Infrastructure как внешний сервис
     public class CatalogServiceClient : ICatalogServiceClient
     {
         private readonly HttpClient _httpClient;

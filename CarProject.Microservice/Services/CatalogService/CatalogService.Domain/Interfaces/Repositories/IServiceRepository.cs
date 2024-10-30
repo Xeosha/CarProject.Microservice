@@ -9,5 +9,7 @@ namespace CatalogService.Domain.Interfaces.Repositories
 
         public Task Update(Guid id, ServiceModel serviceModel);
         public Task<List<ServiceModel>> GetAll();
+
+        public Task<ServiceModel> GetById(Guid id); 
     }
 }

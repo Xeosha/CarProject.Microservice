@@ -1,6 +1,6 @@
 ﻿
 using CatalogService.Domain.Interfaces;
-using CatalogService.Domain.Interfaces.Models;
+using CatalogService.Domain.Interfaces.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using ShareDTO;
 
@@ -19,7 +19,7 @@ namespace CatalogService.API.Controllers
 
 
         [HttpGet("getServices")]    
-        public async Task<List<ServiceOrg>> GetServices()
+        public async Task<List<ServiceOrgDto>> GetServices()
         {
             return await _catalogServices.GetAllServices();
         }

@@ -14,29 +14,33 @@ namespace BookingService.Application.Services
             _bookingsRepository = bookingsRepository;
         }
 
-        public async Task<Booking> GetBookingById(Guid bookingId)
+        public async Task<Booking?> GetBookingById(Guid bookingId)
         {
-            return new Booking();
+            return await _bookingsRepository.GetById(bookingId);
         }
 
-        public async Task<Guid> CreateBooking(Guid userId, Guid ServiceOrganizationId)
+        public async Task<Booking> CreateBooking(Guid userId, Guid serviceOrganizationId, DateTime bookingTime)
         {
             var bookingId = Guid.NewGuid();
 
+            // здесь проверить, что такого айди нет
 
-            return bookingId;
+            var booking = Booking.Create(bookingId, userId, serviceOrganizationId, bookingTime);
+
+            await _bookingsRepository.Add(booking);
+
+            return booking;
         }
 
-        public async Task<bool> ConfirmBooking(Guid bookingId, bool isConfirmed)
+        public async Task<Booking> ConfirmBooking(Guid bookingId, bool isConfirmed)
         {
-            // Логика обновления статуса в базе данных
+            var booking = await GetBookingById(bookingId);
 
-            string status = isConfirmed ? "Confirmed" : "Declined";
+            booking.BookingStatus = BookingStatus.Confirmed;
 
-            // Уведомить пользователя
+            await _bookingsRepository.Update(booking);
 
-
-            return isConfirmed;
+            return booking;
         }
 
         public async Task<List<AvailableDayDto>> CalculateAvailableSlots(List<WorkingHoursDto> workingHours, List<Booking> existingBookings)
@@ -94,7 +98,7 @@ namespace BookingService.Application.Services
 
         public async Task<List<Booking>> GetBookings(Guid organizationServiceId, DateTime start, DateTime end)
         {
-            return await _bookingsRepository.GetBookingsAsync(organizationServiceId, start, end);
+            return await _bookingsRepository.GetAll(organizationServiceId, start, end);
         }
     }
 }

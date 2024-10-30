@@ -57,8 +57,10 @@ namespace CatalogService.Infrastructure.Repositories
                 .Select(e => new ServiceOrg
                 {
                     Id = e.Id,
+                    IdOrganization = e.IdOrganization,
+                    IdService = e.IdService,
+                    Price = e.Price,
                     Description = e.Description,
-                    // присвойте остальные свойства
                 })
                 .ToListAsync();
         }

@@ -1,12 +1,12 @@
 ﻿using BookingService.Domain.Interfaces;
+using BookingService.Domain.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace BookingService.API.Hubs
 {
     public interface IBookingClient
     {
-        Task NotifyOrganization(Guid userId, string service);
-        Task NotifyUser(bool isConfirmed);
+        Task Notify(Booking booking);
     }
 
     public class NotificationBookingHub : Hub<IBookingClient>
@@ -47,7 +47,7 @@ namespace BookingService.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task RequestBooking(string organizationId, string ServiceOrganizationId, string service)
+        public async Task RequestBooking(string organizationId, string serviceOrganizationId, DateTime bookingTime)
         {
             var userId = Context.UserIdentifier;
 
@@ -55,8 +55,10 @@ namespace BookingService.API.Hubs
 
             try
             {
-                await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(organizationId));
-                await Clients.User(organizationId.ToString()).NotifyOrganization(Guid.Parse(userId), service);
+                var booking = await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(serviceOrganizationId), bookingTime);
+
+                await Clients.User(organizationId.ToString()).Notify(booking);
+
                 _logger.LogInformation("Organization notified on multiple connections");
             }
             catch (Exception ex)
@@ -72,7 +74,7 @@ namespace BookingService.API.Hubs
             try
             {
                 var booking = await _bookingService.ConfirmBooking(Guid.Parse(bookingId), isConfirmed);
-                await Clients.User(userId.ToString()).NotifyUser(isConfirmed);
+                await Clients.User(userId.ToString()).Notify(booking);
                 _logger.LogInformation("User notified.");
             }
             catch (Exception ex)
