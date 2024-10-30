@@ -47,7 +47,7 @@ namespace BookingService.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task RequestBooking(string organizationId, string service)
+        public async Task RequestBooking(string organizationId, string ServiceOrganizationId, string service)
         {
             var userId = Context.UserIdentifier;
 
@@ -55,7 +55,7 @@ namespace BookingService.API.Hubs
 
             try
             {
-                await _bookingService.CreateBooking(new Guid(), Guid.Parse(userId), Guid.Parse(organizationId), service);
+                await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(organizationId));
                 await Clients.User(organizationId.ToString()).NotifyOrganization(Guid.Parse(userId), service);
                 _logger.LogInformation("Organization notified on multiple connections");
             }

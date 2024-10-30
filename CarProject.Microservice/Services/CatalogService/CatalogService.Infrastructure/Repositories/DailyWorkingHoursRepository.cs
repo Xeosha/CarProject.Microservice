@@ -1,6 +1,7 @@
-﻿using CatalogService.Domain.Interfaces.Models.Dto;
+﻿
 using CatalogService.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using ShareDTO;
 
 namespace CatalogService.Infrastructure.Repositories
 {

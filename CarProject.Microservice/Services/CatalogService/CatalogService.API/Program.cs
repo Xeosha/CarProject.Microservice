@@ -32,18 +32,6 @@ builder.Services.AddScoped<IDailyWorkingHoursRepository, DailyWorkingHoursReposi
 builder.Services.AddTransient<ICatalogServices, CatalogServices>();
 
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("https://bookingservice.api:6060")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
-
-
 var app = builder.Build();
 
 // סגאדדונ 
@@ -53,9 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
-
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

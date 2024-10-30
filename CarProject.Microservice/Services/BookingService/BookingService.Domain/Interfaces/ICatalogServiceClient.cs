@@ -1,11 +1,10 @@
 ﻿
-
-using BookingService.Domain.Models.Dto;
+using ShareDTO;
 
 namespace BookingService.Domain.Interfaces
 {
     public interface ICatalogServiceClient
     {
-        Task<WorkingHoursDto> GetWorkingHours(Guid organizationServiceId);
+        Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId);
     }
 }

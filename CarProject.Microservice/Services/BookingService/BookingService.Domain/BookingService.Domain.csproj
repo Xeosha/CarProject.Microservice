@@ -10,4 +10,8 @@
     <Folder Include="Abstactions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Share\ShareDTO\ShareDTO.csproj" />
+  </ItemGroup>
+
 </Project>

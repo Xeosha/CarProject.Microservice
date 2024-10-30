@@ -2,7 +2,9 @@ using BookingService.API.Hubs;
 using BookingService.API.Providers;
 using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
+using BookingService.Domain.Interfaces.Repositories;
 using BookingService.Infrastracture;
+using BookingService.Infrastracture.Repositories;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
@@ -20,7 +22,8 @@ builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 
-builder.Services.AddScoped<IBookingService, BookingsService>();
+builder.Services.AddTransient<IBookingService, BookingsService>();
+builder.Services.AddScoped<IBookingsRepository, BookingsRepository>(); 
 
 // подключение к биде, конектион строки хранятся в docker-compose environment (переменные среды)
 builder.Services.AddDbContext<BookingServiceDbContext>(
@@ -43,10 +46,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+
 // ссылка на микросервис
 builder.Services.AddHttpClient<ICatalogServiceClient, CatalogServiceClient>(client =>
 {
-    client.BaseAddress = new Uri("https://catalogservice.api:6061/api/");
+    client.BaseAddress = new Uri("http://catalogservice.api:8080");
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
@@ -62,7 +66,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

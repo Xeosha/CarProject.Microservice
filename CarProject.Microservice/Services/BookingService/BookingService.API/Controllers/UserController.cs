@@ -1,6 +1,8 @@
 ﻿using BookingService.API.Hubs;
 using BookingService.Application.Services;
 using BookingService.Domain.Interfaces;
+using BookingService.Domain.Models;
+using BookingService.Domain.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -34,20 +36,31 @@ namespace BookingService.API.Controllers
         }
 
         [HttpGet("getAvailableTimes")]
-        public async Task<IActionResult> GetAvailableTimes([FromQuery] Guid organizationServiceId)
+        public async Task<List<AvailableDayDto>> GetAvailableTimes([FromQuery] Guid organizationServiceId)
         {
-            DateTime date = DateTime.UtcNow; // 
+            DateTime startDate = DateTime.UtcNow; // Начало текущего времени
+            DateTime endDate = startDate.AddDays(7); // Конец через неделю
 
             // Шаг 1: Запросить расписание и часы работы из CatalogService
             var workingHours = await _catalogServiceClient.GetWorkingHours(organizationServiceId);
 
             // Шаг 2: Получить существующие брони
-            var existingBookings = await _bookingService.GetBookings(organizationServiceId, date);
+            var existingBookings = await _bookingService.GetBookings(organizationServiceId, startDate, endDate);
 
             // Шаг 3: Сформировать список доступных временных слотов
-            var availableSlots = _bookingService.CalculateAvailableSlots(workingHours, existingBookings);
+            var availableSlots = await _bookingService.CalculateAvailableSlots(workingHours, existingBookings);
 
-            return Ok(availableSlots);
+            return availableSlots;  
+        }
+
+        [HttpGet("getAllBookings")]
+        public async Task<List<Booking>> GetAllBookings([FromQuery] Guid organizationServiceId)
+        {
+
+            DateTime startDate = DateTime.UtcNow; // Начало текущего времени
+            DateTime endDate = startDate.AddDays(7); // Конец через неделю
+
+            return await _bookingService.GetBookings(organizationServiceId, startDate, endDate);
         }
     }
 }

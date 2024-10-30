@@ -19,11 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingService.Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingService.Infrastracture", "Services\BookingService\BookingService.Infrastracture\BookingService.Infrastracture.csproj", "{70275D99-DA03-49BD-B232-459D50E4A842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Application", "Services\CatalogService\CatalogService.Application\CatalogService.Application.csproj", "{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Application", "Services\CatalogService\CatalogService.Application\CatalogService.Application.csproj", "{60AD8E3E-1F0A-4F5A-8259-5BAF1D2E9241}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Domain", "Services\CatalogService\CatalogService.Domain\CatalogService.Domain.csproj", "{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Domain", "Services\CatalogService\CatalogService.Domain\CatalogService.Domain.csproj", "{A581F7A8-AE21-4C7E-B014-85E3E4AEB199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Infrastructure", "Services\CatalogService\CatalogService.Infrastructure\CatalogService.Infrastructure.csproj", "{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogService.Infrastructure", "Services\CatalogService\CatalogService.Infrastructure\CatalogService.Infrastructure.csproj", "{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A71F98BD-8747-4879-AF3C-2A8C76C8054A}"
 EndProject
@@ -34,6 +34,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Constatns", "Constatns", "{88F857ED-1B76-4A44-83E2-047AE3DF78AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIGateway", "APIGateway", "{F2DAEDBB-A8D2-4A8B-8248-CDCDB6C3E440}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dto", "Dto", "{3A389AF4-5B88-4955-A545-B83374B83C1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareDTO", "Services\Share\ShareDTO\ShareDTO.csproj", "{EB0126A7-2F85-4D11-8D3C-1F77A872B100}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +81,10 @@ Global
 		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99E196F6-B4A0-4E33-B16D-9F9E17F0DEBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB0126A7-2F85-4D11-8D3C-1F77A872B100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB0126A7-2F85-4D11-8D3C-1F77A872B100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB0126A7-2F85-4D11-8D3C-1F77A872B100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB0126A7-2F85-4D11-8D3C-1F77A872B100}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +101,8 @@ Global
 		{8C7F8607-171F-4745-A874-5A12EEC26523} = {A71F98BD-8747-4879-AF3C-2A8C76C8054A}
 		{79EC3230-7D95-4D0E-90DE-8797908B0E30} = {8C7F8607-171F-4745-A874-5A12EEC26523}
 		{88F857ED-1B76-4A44-83E2-047AE3DF78AF} = {8C7F8607-171F-4745-A874-5A12EEC26523}
+		{3A389AF4-5B88-4955-A545-B83374B83C1A} = {8C7F8607-171F-4745-A874-5A12EEC26523}
+		{EB0126A7-2F85-4D11-8D3C-1F77A872B100} = {3A389AF4-5B88-4955-A545-B83374B83C1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCC3AFAE-3DC0-4D18-BAD3-B8A628CA3CEF}

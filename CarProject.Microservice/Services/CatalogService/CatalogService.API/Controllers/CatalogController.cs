@@ -1,8 +1,8 @@
 ﻿
 using CatalogService.Domain.Interfaces;
 using CatalogService.Domain.Interfaces.Models;
-using CatalogService.Domain.Interfaces.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
+using ShareDTO;
 
 namespace CatalogService.API.Controllers
 {
