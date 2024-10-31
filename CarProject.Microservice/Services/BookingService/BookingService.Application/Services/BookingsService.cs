@@ -100,5 +100,16 @@ namespace BookingService.Application.Services
         {
             return await _bookingsRepository.GetAll(organizationServiceId, start, end);
         }
+
+        public async Task<List<Booking>> GetBookingsForUser(Guid userId)
+        {
+            return await _bookingsRepository.GetForUser(userId);
+        }
+
+        public async Task<List<Booking>> GetBookingsForOrg(Guid organizationId)
+        {
+            return await _bookingsRepository.GetForOrg(organizationId);
+        }
+
     }
 }

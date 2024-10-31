@@ -28,11 +28,11 @@ namespace BookingService.API.Controllers
             _catalogServiceClient = catalogServiceClient;
         }
 
-        [HttpPost("request")]
-        public async Task<IActionResult> RequestBooking()
+        [HttpGet("getAllBookings")]
+        public async Task<List<Booking>> GetAllBookings(Guid userId)
         {
-            
-            return StatusCode(500, "Failed to create booking."); 
+
+            return await _bookingService.GetBookingsForUser(userId);
         }
 
         [HttpGet("getAvailableTimes")]
@@ -51,16 +51,6 @@ namespace BookingService.API.Controllers
             var availableSlots = await _bookingService.CalculateAvailableSlots(workingHours, existingBookings);
 
             return availableSlots;  
-        }
-
-        [HttpGet("getAllBookings")]
-        public async Task<List<Booking>> GetAllBookings([FromQuery] Guid organizationServiceId)
-        {
-
-            DateTime startDate = DateTime.UtcNow; // Начало текущего времени
-            DateTime endDate = startDate.AddDays(7); // Конец через неделю
-
-            return await _bookingService.GetBookings(organizationServiceId, startDate, endDate);
         }
     }
 }

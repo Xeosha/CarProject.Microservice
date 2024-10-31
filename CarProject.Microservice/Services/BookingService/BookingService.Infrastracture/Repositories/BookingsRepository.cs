@@ -88,6 +88,40 @@ namespace BookingService.Infrastracture.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<List<Booking>> GetForUser(Guid userId)
+        {
+            var bookings = await _dbContext.Bookings
+                    .Where(b => b.UserId == userId)
+                    .ToListAsync();
 
+
+            return bookings.Select(b => new Booking
+            {
+                BookingId = b.Id,
+                UserId = b.UserId,
+                ServiceOrganizationId = b.ServiceOrganizationId,
+                BookingTime = b.DateTime,
+                BookingStatus = b.BookingStatus,
+                Notes = b.Description
+            }).ToList();
+
+        }
+
+        public async Task<List<Booking>> GetForOrg(Guid organizationId)
+        {
+            var bookings = await _dbContext.Bookings
+                    .Where(b => b.ServiceOrganizationId == organizationId)
+                    .ToListAsync();
+
+            return bookings.Select(b => new Booking
+            {
+                BookingId = b.Id,
+                UserId = b.UserId,
+                ServiceOrganizationId = b.ServiceOrganizationId,
+                BookingTime = b.DateTime,
+                BookingStatus = b.BookingStatus,
+                Notes = b.Description
+            }).ToList();
+        }
     }
 }

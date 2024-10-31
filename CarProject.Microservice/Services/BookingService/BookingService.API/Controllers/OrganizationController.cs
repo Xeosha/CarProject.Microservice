@@ -1,5 +1,6 @@
 ﻿using BookingService.API.Hubs;
 using BookingService.Domain.Interfaces;
+using BookingService.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -20,10 +21,11 @@ namespace BookingService.API.Controllers
             _logger = logger;
         }
 
-        [HttpPost("confirm")]
-        public async Task<IActionResult> ConfirmBooking()
+        [HttpGet("getAllBookings")]
+        public async Task<List<Booking>> GetAllBookings([FromQuery] Guid organizationServiceId)
         {
-            return StatusCode(500, "Failed to confirm booking.");
+
+            return await _bookingService.GetBookingsForOrg(organizationServiceId);
         }
     }
 }
