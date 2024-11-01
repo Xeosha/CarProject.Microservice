@@ -20,5 +20,12 @@ namespace CatalogService.API.Controllers
         { 
             await _catalogServices.AddServiceToOrg(orgId, serviceId, Price, Description); 
         }
+
+        [HttpGet("getServiceOrgIds")]
+        public async Task<List<Guid>> GetServiceOrgIds(Guid organizationId)
+        {
+            var serviceOrgs = await _catalogServices.GetOrgServices(organizationId);
+            return serviceOrgs.Select(s => s.Id).ToList();
+        }
     }
 }

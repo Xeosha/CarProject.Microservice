@@ -107,11 +107,11 @@ namespace BookingService.Infrastracture.Repositories
 
         }
 
-        public async Task<List<Booking>> GetForOrg(Guid organizationId)
+        public async Task<List<Booking>> GetForOrg(List<Guid> serviceOrgIds)
         {
             var bookings = await _dbContext.Bookings
-                    .Where(b => b.ServiceOrganizationId == organizationId)
-                    .ToListAsync();
+                .Where(b => serviceOrgIds.Contains(b.ServiceOrganizationId))
+                .ToListAsync();
 
             return bookings.Select(b => new Booking
             {

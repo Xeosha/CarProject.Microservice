@@ -8,10 +8,12 @@ namespace BookingService.Application.Services
 {
     public class BookingsService : IBookingService
     { 
-        IBookingsRepository _bookingsRepository { get; set; }    
-        public BookingsService(IBookingsRepository bookingsRepository)
+        IBookingsRepository _bookingsRepository { get; set; }  
+        ICatalogServiceClient _catalogServiceClient {  get; set; }
+        public BookingsService(IBookingsRepository bookingsRepository, ICatalogServiceClient catalogServiceClient)
         {
             _bookingsRepository = bookingsRepository;
+            _catalogServiceClient = catalogServiceClient;
         }
 
         public async Task<Booking?> GetBookingById(Guid bookingId)
@@ -43,57 +45,6 @@ namespace BookingService.Application.Services
             return booking;
         }
 
-        public async Task<List<AvailableDayDto>> CalculateAvailableSlots(List<WorkingHoursDto> workingHours, List<Booking> existingBookings)
-        {
-            var availableDays = new List<AvailableDayDto>();
-
-            // Группируем существующие бронирования по дню недели для удобства поиска
-            var bookingsByDayOfWeek = existingBookings.GroupBy(b => b.BookingTime.Date).ToDictionary(g => g.Key, g => g.ToList());
-
-            // Определяем текущую дату
-            var startDate = DateTime.UtcNow;
-
-            for (int i = 0; i < 7; i++)
-            {
-                // Определяем дату для текущего дня (сейчас + i дней)
-                var currentDate = startDate.AddDays(i);
-                var dayOfWeek = currentDate.DayOfWeek;
-
-                // Находим рабочие часы для текущего дня
-                var workingHourForDay = workingHours.FirstOrDefault(wh => wh.DayOfWeek == dayOfWeek);
-
-                if (workingHourForDay != null)
-                {
-                    var availableDay = new AvailableDayDto
-                    {
-                        DayOfWeek = dayOfWeek,
-                        Date = currentDate
-                    };
-
-                    foreach (var slot in workingHourForDay.TimeSlots)
-                    {
-                        // Проверяем, есть ли бронирование на текущий временной слот
-                        var isBooked = bookingsByDayOfWeek.TryGetValue(currentDate.Date, out var dayBookings) &&
-                                       dayBookings.Any(b => b.BookingTime.TimeOfDay >= slot.StartTime && b.BookingTime.TimeOfDay < slot.EndTime);
-
-                        var availableSlot = new AvailableTimeSlotDto
-                        {
-                            StartTime = slot.StartTime,
-                            EndTime = slot.EndTime,
-                            IsBooked = isBooked
-                        };
-
-                        availableDay.TimeSlots.Add(availableSlot);
-                    }
-
-                    availableDays.Add(availableDay);
-                }
-            }
-
-            return availableDays;
-        }
-
-
 
 
         public async Task<List<Booking>> GetBookings(Guid organizationServiceId, DateTime start, DateTime end)
@@ -108,7 +59,17 @@ namespace BookingService.Application.Services
 
         public async Task<List<Booking>> GetBookingsForOrg(Guid organizationId)
         {
-            return await _bookingsRepository.GetForOrg(organizationId);
+            // Получаем список идентификаторов `ServiceOrgId`, связанных с `organizationId` из CatalogService
+            var serviceOrgIds = await _catalogServiceClient.GetServiceOrgIdsForOrganization(organizationId);
+
+            // Если `ServiceOrgId` не найдены, возвращаем пустой список
+            if (serviceOrgIds == null || !serviceOrgIds.Any())
+            {
+                return new List<Booking>();
+            }
+
+            // Запрашиваем все бронирования, где `ServiceOrgId` входит в полученный список
+            return await _bookingsRepository.GetForOrg(serviceOrgIds);
         }
 
     }

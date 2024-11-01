@@ -13,42 +13,32 @@ namespace BookingService.API.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ICatalogServiceClient _catalogServiceClient;
         private readonly IBookingService _bookingService;
         private readonly ILogger<UserController> _logger;
+        private readonly IAvailableSlotsService _availableSlotsService;
 
         public UserController(
             IBookingService bookingService, 
             ILogger<UserController> logger,
-            ICatalogServiceClient catalogServiceClient
-            )
+            IAvailableSlotsService availableSlotsService)
         {
             _bookingService = bookingService;
             _logger = logger;
-            _catalogServiceClient = catalogServiceClient;
+            _availableSlotsService = availableSlotsService;
         }
 
         [HttpGet("getAllBookings")]
         public async Task<List<Booking>> GetAllBookings(Guid userId)
         {
-
             return await _bookingService.GetBookingsForUser(userId);
         }
 
         [HttpGet("getAvailableTimes")]
         public async Task<List<AvailableDayDto>> GetAvailableTimes([FromQuery] Guid organizationServiceId)
         {
-            DateTime startDate = DateTime.UtcNow; // Начало текущего времени
-            DateTime endDate = startDate.AddDays(7); // Конец через неделю
+        
+            var availableSlots = await _availableSlotsService.CalculateAvailableSlots(organizationServiceId);
 
-            // Шаг 1: Запросить расписание и часы работы из CatalogService
-            var workingHours = await _catalogServiceClient.GetWorkingHours(organizationServiceId);
-
-            // Шаг 2: Получить существующие брони
-            var existingBookings = await _bookingService.GetBookings(organizationServiceId, startDate, endDate);
-
-            // Шаг 3: Сформировать список доступных временных слотов
-            var availableSlots = await _bookingService.CalculateAvailableSlots(workingHours, existingBookings);
 
             return availableSlots;  
         }

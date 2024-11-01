@@ -10,7 +10,6 @@ namespace BookingService.Domain.Interfaces
         public Task<Booking> CreateBooking(Guid userId, Guid ServiceOrganizationId, DateTime BookingTime);
         public Task<Booking> ConfirmBooking(Guid bookingId, bool isConfirmed);
         public Task<Booking?> GetBookingById(Guid bookingId);
-        public Task<List<AvailableDayDto>> CalculateAvailableSlots(List<WorkingHoursDto> workingHours, List<Booking> existingBookings);
         public Task<List<Booking>> GetBookings(Guid organizationServiceId, DateTime startDate, DateTime endDate);
         public Task<List<Booking>> GetBookingsForUser(Guid userId);
         public Task<List<Booking>> GetBookingsForOrg(Guid orgId);

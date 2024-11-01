@@ -70,5 +70,11 @@ namespace CatalogService.Application.Servicess
 
             return serviceOrgDtos;
         }
+
+
+        public async Task<List<ServiceOrg>> GetOrgServices(Guid organizationId)
+        {
+            return await _serviceOrgRepository.GetOrg(organizationId);
+        }
     }
 }

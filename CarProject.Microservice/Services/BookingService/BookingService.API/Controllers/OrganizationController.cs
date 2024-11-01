@@ -22,10 +22,9 @@ namespace BookingService.API.Controllers
         }
 
         [HttpGet("getAllBookings")]
-        public async Task<List<Booking>> GetAllBookings([FromQuery] Guid organizationServiceId)
+        public async Task<List<Booking>> GetAllBookings([FromQuery] Guid organizationId)
         {
-
-            return await _bookingService.GetBookingsForOrg(organizationServiceId);
+            return await _bookingService.GetBookingsForOrg(organizationId);
         }
     }
 }

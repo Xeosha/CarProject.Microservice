@@ -23,6 +23,7 @@ builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 
 builder.Services.AddTransient<IBookingService, BookingsService>();
+builder.Services.AddTransient<IAvailableSlotsService, AvailableSlotsService>();
 builder.Services.AddScoped<IBookingsRepository, BookingsRepository>(); 
 
 // подключение к биде, конектион строки хранятся в docker-compose environment (переменные среды)

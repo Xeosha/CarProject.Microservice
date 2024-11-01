@@ -1,6 +1,5 @@
 ﻿using BookingService.Domain.Interfaces;
 using ShareDTO;
-using System.Net;
 using System.Net.Http.Json;
 
 namespace BookingService.Application.Services
@@ -27,6 +26,21 @@ namespace BookingService.Application.Services
 
             var workingHours = await response.Content.ReadFromJsonAsync<List<WorkingHoursDto>>();
             return workingHours;
+        }
+
+        public async Task<List<Guid>> GetServiceOrgIdsForOrganization(Guid organizationId)
+        {
+            // Запрос к CatalogService, чтобы получить список ServiceOrgId для данной организации
+            var response = await _httpClient.GetAsync($"/api/Organization/getServiceOrgIds?organizationId={organizationId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // Обработка ошибки
+                throw new Exception("Не удалось получить ServiceOrgId из CatalogService");
+            }
+
+            var serviceOrgIds = await response.Content.ReadFromJsonAsync<List<Guid>>();
+            return serviceOrgIds ?? new List<Guid>();
         }
     }
 }

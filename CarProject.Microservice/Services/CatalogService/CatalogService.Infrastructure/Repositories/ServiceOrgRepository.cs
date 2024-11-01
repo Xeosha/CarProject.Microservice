@@ -67,5 +67,21 @@ namespace CatalogService.Infrastructure.Repositories
                 })
                 .ToListAsync();
         }
+
+        public async Task<List<ServiceOrg>> GetOrg(Guid orgId)
+        {
+            // Преобразуем сущности обратно в модели
+            return await _context.ServiceOrganizations
+                .Select(e => new ServiceOrg
+                {
+                    Id = e.Id,
+                    IdOrganization = e.IdOrganization,
+                    IdService = e.IdService,
+                    Price = e.Price,
+                    Description = e.Description,
+                })
+                .Where(b => b.IdOrganization == orgId)
+                .ToListAsync();
+        }
     }
 }
