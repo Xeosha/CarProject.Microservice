@@ -5,22 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8216593-661b-4700-b148-924abcc90f67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/organization/FormUpdateService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.API/Hubs/NotificationBookingHub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.API/Hubs/NotificationBookingHub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.Application/Services/AvailableSlotsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.Application/Services/AvailableSlotsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.Application/Services/BookingsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.Application/Services/BookingsService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Booking.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Booking.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/CreateService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/CreateService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/DeleteServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/DeleteServices.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/UpdateServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/UpdateServices.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/Bookings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/Bookings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/FormCreateService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useBooking.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/FormDeleteService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/organization/Bookings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/Bookings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ClientPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClientPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/OrganizationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/OrganizationPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/organization/FormUpdateService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/FormUpdateService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

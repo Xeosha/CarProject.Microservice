@@ -13,7 +13,7 @@ const FormUpdateService = ({ onFormSubmit, onCancel }) => {
         try {
             const priceNumber = parseFloat(price); // parseFloat  для преобразования в  number
             const response = await UpdateService(serviceOrgId, orgId, serviceId, priceNumber, description);
-            if (response.success) {
+            if (!response) {
                 console.log("Услуга успешно обновлена:", response);
                 onFormSubmit();
             } else {
