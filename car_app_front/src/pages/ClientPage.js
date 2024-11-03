@@ -49,38 +49,6 @@ const ClientPage = ({ user, connection, notification }) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // Обработка выбора услуги
     const handleServiceSelect = (service) => {
         setSelectedService(service);
