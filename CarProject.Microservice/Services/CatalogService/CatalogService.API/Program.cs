@@ -4,6 +4,7 @@ using CatalogService.Domain.Interfaces.Repositories;
 using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwaggerGen(options =>
+{
+    //Determine base path for the application.
+    var basePath = AppContext.BaseDirectory;
+
+    //Set the comments path for the swagger json and ui.
+    var xmlPath = Path.Combine(basePath, "CatalogService.API.xml");
+    options.IncludeXmlComments(xmlPath);
+});
 
 // подключение к биде, конектион строки хранятся в docker-compose environment (переменные среды)
 builder.Services.AddDbContext<CatalogServiceDbContext>(
