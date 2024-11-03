@@ -42,12 +42,14 @@ const App = () => {
                             user={user}
                             connection={connection}
                             requests={requests}
+                            setRequests={setRequests}
                         />
                     ) : (
                         <OrganizationPage
-                            organizationId={user.id}
+                            user={user}
                             connection={connection}
                             requests={requests}
+                            setRequests={setRequests}
                         />
                     )}
                 </>

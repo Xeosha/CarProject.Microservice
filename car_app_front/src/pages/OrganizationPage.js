@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Services from '../organization/Services';
+import Bookings from '../organization/Bookings';
 
-const OrganizationPage = ({ organizationId, connection, requests }) => {
+const OrganizationPage = ({ user, connection, requests, setRequests }) => {
     const [services, setServices] = useState([]);
-    const [reque, setReue] = useState(requests);
+    const [bookings, setBookings] = useState([]);
 
 
     const handleConfirmBooking = async (userId, isConfirmed) => {
         if (connection) {
             try {
-                await connection.invoke('ConfirmBooking', reque.bookingId, isConfirmed);
-                setReue(reque.filter(req => req.userId !== userId));
+                await connection.invoke('ConfirmBooking', requests.bookingId, isConfirmed);
+                setRequests(requests.filter(req => req.userId !== userId));
             } catch (e) {
                 console.error('Booking confirmation failed: ', e);
             }
@@ -23,7 +24,7 @@ const OrganizationPage = ({ organizationId, connection, requests }) => {
     return (
         <div>
             <h1>Услуги вашей организации</h1>
-            <Services organizationID={organizationId} services={services} setServices={setServices}/>
+            <Services organizationID={user.id} services={services} setServices={setServices}/>
             <h2>Запросы на бронирование</h2>
             {reque.map((req, index) => (
                 <div key={index}>

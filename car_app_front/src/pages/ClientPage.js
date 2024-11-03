@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 
 
-const ClientPage = ({ user, connection, notification }) => {
+const ClientPage = ({ user, connection, requests, setRequests }) => {
     const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
     const [organizations, setOrganizations] = useState([]);
