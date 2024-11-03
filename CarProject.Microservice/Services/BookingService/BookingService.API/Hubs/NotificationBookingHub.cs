@@ -47,7 +47,7 @@ namespace BookingService.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task RequestBooking(string orgId, string serviceOrganizationId /* DateTime bookingTime */)
+        public async Task RequestBooking(string orgId, string serviceOrganizationId, DateTime bookingTime)
         {
             var userId = Context.UserIdentifier;
 
@@ -55,7 +55,7 @@ namespace BookingService.API.Hubs
 
             try
             {
-                var booking = await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(serviceOrganizationId), DateTime.UtcNow);
+                var booking = await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(serviceOrganizationId), bookingTime);
 
                 await Clients.User(orgId).Notify(booking);
 

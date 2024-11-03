@@ -1,6 +1,8 @@
 import React from 'react';
+import GetServiceOrgIds from "../api/GetServiceOrgIds";
 
-const Services = ({ services }) => {
+const Services = ({ organizationID, services, setServices }) => {
+    GetServiceOrgIds({organizationID, setServices});
     return (
         <div>
             {services.map(service => (

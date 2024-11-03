@@ -32,7 +32,6 @@ function OrganizationList({ serviceId }) {
                     </div>
                 ))}
             </div>
-            <MapComponent organizations={filteredOrganizations} />
         </div>
     );
 }

@@ -14,15 +14,12 @@ const ClientPage = ({ user, connection, notification }) => {
     const [hoveredOrg, setHoveredOrg] = useState(null); // Добавляем состояние для выделения организации
 
 
-    const [notific, setNotific] = useState(notification);
-
-
     const handleBookingRequest = async () => {
         if (connection) {
             try {
                 if (!/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(user.id) ||
                     !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(selectedOrganization)) {
-                    setNotific('Invalid GUID format for userId or organizationId');
+                    //setNotific('Invalid GUID format for userId or organizationId');
                     return;
                 }
 
@@ -37,7 +34,7 @@ const ClientPage = ({ user, connection, notification }) => {
 
                 await connection.invoke('RequestBooking', selectedOrganization, selectedService.id, bookingDateTime);
 
-                setNotific('Booking request sent.');
+                //setNotific('Booking request sent.');
             } catch (e) {
                 console.error('Booking request failed: ', e);
             }
@@ -83,26 +80,6 @@ const ClientPage = ({ user, connection, notification }) => {
 
 
 
-
-    // Запрос на сервер для получения услуг после авторизации
-    useEffect(() => {
-        const fetchServices = async () => {
-            try {
-                const response = await fetch('https://localhost:6061/api/Catalog/getServices');
-                const data = await response.json();
-
-                if (Array.isArray(data)) {
-                    setServices(data);
-                } else {
-                    console.error('Получены некорректные данные:', data);
-                }
-            } catch (error) {
-                console.error('Ошибка загрузки услуг:', error);
-            }
-        };
-
-        fetchServices();
-    }, []);
 
     // Обработка выбора услуги
     const handleServiceSelect = (service) => {
