@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export const CreateService = async (orgId, serviceId, Price, Description) => {
+export const UpdateService = async (serviceOrgId, orgId, serviceId, Price, Description) => {
   try {
     const response = await axios
-    .post("https://localhost:6061/api/Organization/createService", {
+    .post("https://localhost:6061/api/Organization/updateService", {
+        serviceOrgId,
         orgId,
         serviceId,
         Price,

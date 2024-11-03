@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-export const CreateService = async (orgId, serviceId, Price, Description) => {
+export const DeleteService = async (serviceOrgId) => {
   try {
     const response = await axios
-    .post("https://localhost:6061/api/Organization/createService", {
-        orgId,
-        serviceId,
-        Price,
-        Description
+    .post("https://localhost:6061/api/Organization/deleteService", {
+        serviceOrgId
     });
     return response.data;
   } catch (error) {

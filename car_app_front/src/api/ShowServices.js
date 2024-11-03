@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-export const CreateService = async (orgId, serviceId, Price, Description) => {
+export const ShowService = async (orgId) => {
   try {
     const response = await axios
-    .post("https://localhost:6061/api/Organization/createService", {
-        orgId,
-        serviceId,
-        Price,
-        Description
+    .post("https://localhost:6061/api/Organization/showService", {
+        orgId
     });
     return response.data;
   } catch (error) {
