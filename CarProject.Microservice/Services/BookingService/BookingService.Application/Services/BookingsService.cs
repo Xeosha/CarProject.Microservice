@@ -2,18 +2,21 @@
 using BookingService.Domain.Interfaces.Repositories;
 using BookingService.Domain.Models;
 using BookingService.Domain.Models.Dto;
+using Microsoft.Extensions.Logging;
 using ShareDTO;
 
 namespace BookingService.Application.Services
 {
     public class BookingsService : IBookingService
-    { 
+    {
+        ILogger<BookingsService> _logger;
         IBookingsRepository _bookingsRepository { get; set; }  
         ICatalogServiceClient _catalogServiceClient {  get; set; }
-        public BookingsService(IBookingsRepository bookingsRepository, ICatalogServiceClient catalogServiceClient)
+        public BookingsService(IBookingsRepository bookingsRepository, ICatalogServiceClient catalogServiceClient, ILogger<BookingsService> logger)
         {
             _bookingsRepository = bookingsRepository;
             _catalogServiceClient = catalogServiceClient;
+            _logger = logger;
         }
 
         public async Task<Booking?> GetBookingById(Guid bookingId)
@@ -37,6 +40,8 @@ namespace BookingService.Application.Services
         public async Task<Booking> ConfirmBooking(Guid bookingId, bool isConfirmed)
         {
             var booking = await GetBookingById(bookingId);
+
+            _logger.LogInformation("\n\n Я вытянул booking: " + booking.BookingId);
 
             booking.BookingStatus = BookingStatus.Confirmed;
 
