@@ -1,9 +1,17 @@
-//hsed
 import React from "react";
 
-const GetAllBookings = async () => {
+const GetAllBookings = async ({userId, mode}) => {
     try {
-        const response = await fetch('https://localhost:6060/api/Organization/getAllBookings');
+        let response;
+        if (mode === 'organization') {
+            response = await fetch(`https://localhost:6060/api/Organization/getAllBookings?organizationId=${userId}`);
+        }
+        else {
+            response = await fetch(`https://localhost:6060/api/User/getAllBookings?userId=${userId}`);
+        }
+
+        console.log(response);
+
         const data = await response.json();
 
         if (Array.isArray(data)) {

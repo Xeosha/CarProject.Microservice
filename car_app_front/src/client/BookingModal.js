@@ -1,24 +1,18 @@
-function BookingModal({ serviceId, onClose }) {
-    const timeSlots = [
-        { time: '10:00', available: true },
-        { time: '11:00', available: false },
-        // More slots
-    ];
+import React, { useState } from 'react';
+
+function BookingModal({ closeConfirmationModal, confirmationSlot, toBook }) {
+
 
     return (
-        <div className="modal">
-            <button onClick={onClose}>Close</button>
-            <div className="time-slots">
-                {timeSlots.map(slot => (
-                    <button
-                        key={slot.time}
-                        disabled={!slot.available}
-                        onClick={() => slot.available && alert(`Booking at ${slot.time}`)}
-                    >
-                        {slot.time}
-                    </button>
-                ))}
-            </div>
+        <div className="confirmation-modal">
+            <button className="close-modal" onClick={closeConfirmationModal}>✖</button>
+            <h4>Подтвердите бронирование</h4>
+            <p>Дата: {confirmationSlot.date.split("T")[0]}</p>
+            <p>Время: {confirmationSlot.timeSlot}</p>
+            <button onClick={toBook}>Подтвердить</button>
+            <button onClick={closeConfirmationModal}>Отмена</button>
         </div>
     );
 }
+
+export default BookingModal;

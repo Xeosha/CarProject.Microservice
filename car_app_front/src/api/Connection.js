@@ -9,7 +9,6 @@ const Connection = async (userId, mode, setConnection, setRequests) => {
     // Универсальный обработчик для события "Notify"
     newConnection.on('Notify', (booking) => {
         setRequests(booking);
-        console.log(booking);
     });
 
     setConnection(newConnection);
