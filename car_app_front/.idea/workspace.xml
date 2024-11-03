@@ -5,24 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8216593-661b-4700-b148-924abcc90f67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/GetServiceOrgIds.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/GetServices.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.API/Hubs/NotificationBookingHub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CarProject.Microservice/Services/BookingService/BookingService.API/Hubs/NotificationBookingHub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/auth.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/booking.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ClientRequests.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/OrganizationList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/OrganizationList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AuthComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AuthComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MapComponent.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ToggleSwitch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ToggleSwitch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/GetServiceOrgIds.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/GetServiceOrgIds.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/GetServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/GetServices.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/organization/Services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/Services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/ClientPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClientPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/OrganizationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/OrganizationPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/helpers.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +48,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_interpreter_path": "node",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "settings.editor.selected.configurable": "JavaScript.Libraries",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -103,7 +90,7 @@
       <workItem from="1730315107977" duration="25286000" />
       <workItem from="1730359011893" duration="2513000" />
       <workItem from="1730577303187" duration="12038000" />
-      <workItem from="1730617991280" duration="3613000" />
+      <workItem from="1730617991280" duration="5938000" />
     </task>
     <servers />
   </component>
