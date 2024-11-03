@@ -33,17 +33,27 @@ const Bookings = ({ organizationId, connection, requests, setRequests }) => {
     }, [organizationId]);
 
 
-    // Effect to handle changes in requests
     useEffect(() => {
         if (connection) {
-            if (requests && requests.length > 0) {
-                // Example: Process each request (you can modify the logic as needed)
-                requests.forEach(request => {
-                    console.log('Handling request: ', request);
+            // Добавляем обработчик события в дочернем элементе
+            connection.on('Notify', (booking) => {
+                setBookings(prevBookings => {
+                    // Проверяем, существует ли уже booking с таким же bookingId
+                    const isDuplicate = prevBookings.some(b => b.bookingId === booking.bookingId);
+                    if (!isDuplicate) {
+                        // Добавляем новый объект только если его нет в массиве
+                        return [...prevBookings, booking];
+                    }
+                    return prevBookings; // Возвращаем старый массив, если дубликат найден
                 });
-            }
+            });
+
+            // Очищаем обработчик при размонтировании компонента
+            return () => {
+                connection.off('Notify');
+            };
         }
-    }, [requests]); // Run effect when requests change
+    }, [connection]);
 
 
     // Handle booking confirmation
@@ -67,12 +77,14 @@ const Bookings = ({ organizationId, connection, requests, setRequests }) => {
                 {loading ? (
                     <p>Загрузка услуг...</p>
                 ) : bookings.length > 0 ? (
-                    bookings.map(service => (
-                        <div key={service.bookingId}>
-                            <h3>{service.userId}</h3>
-                            <p>Время: {service.bookingTime}</p>
-                            <p>Статус: {service.bookingStatus}</p>
-                            <p>Записи: {service.notes}</p>
+                    bookings.map(booking => (
+                        <div key={booking.bookingId}>
+                            <h3>{booking.userId}</h3>
+                            <p>Время: {booking.bookingTime}</p>
+                            <p>Статус: {booking.bookingStatus}</p>
+                            <p>Записи: {booking.notes}</p>
+                            <button onClick={() => handleConfirmBooking(booking.bookingId, true)}>Confirm</button>
+                            <button onClick={() => handleConfirmBooking(booking.bookingId, false)}>Decline</button>
                         </div>
                     ))
                 ) : noServicesMessage ? (

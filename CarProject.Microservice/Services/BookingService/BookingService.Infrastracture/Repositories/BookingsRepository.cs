@@ -75,17 +75,20 @@ namespace BookingService.Infrastracture.Repositories
 
         public async Task Update(Booking booking)
         {
-            var bookingEntity = new BookingEntity()
-            {
-                Id = booking.BookingId,
-                UserId = booking.UserId,
-                ServiceOrganizationId = booking.ServiceOrganizationId,
-                DateTime = booking.BookingTime,
-                BookingStatus = booking.BookingStatus,
-                Description = booking.Notes ?? string.Empty
-            };
+            var bookingEntity = await _dbContext.Bookings.FindAsync(booking.BookingId);
 
-            _dbContext.Bookings.Update(bookingEntity);
+            if (bookingEntity == null)
+            {
+                throw new InvalidOperationException($"Booking with ID {booking.BookingId} not found.");
+            }
+
+            // Обновляем только необходимые поля
+            bookingEntity.UserId = booking.UserId;
+            bookingEntity.ServiceOrganizationId = booking.ServiceOrganizationId;
+            bookingEntity.DateTime = booking.BookingTime;
+            bookingEntity.BookingStatus = booking.BookingStatus;
+            bookingEntity.Description = booking.Notes ?? string.Empty;
+
             await _dbContext.SaveChangesAsync();
         }
 

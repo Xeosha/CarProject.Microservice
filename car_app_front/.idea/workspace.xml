@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8216593-661b-4700-b148-924abcc90f67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/Booking.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/client/Bookings.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/client/TimeSlot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ModalWindow.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Connection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Connection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/GetAllBookings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/GetAllBookings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/BookingModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/BookingModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/OrganizationList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/Organizations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/ServiceSelection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/Services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/Booking.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Booking.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/organization/Bookings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/Bookings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ClientPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClientPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/OrganizationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/OrganizationPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

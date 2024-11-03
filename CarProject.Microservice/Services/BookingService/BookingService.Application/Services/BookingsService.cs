@@ -46,6 +46,7 @@ namespace BookingService.Application.Services
             booking.BookingStatus = BookingStatus.Confirmed;
 
             await _bookingsRepository.Update(booking);
+            _logger.LogInformation("\n\n Я обновил booking: " + booking.BookingId);
 
             return booking;
         }
