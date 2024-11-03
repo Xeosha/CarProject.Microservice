@@ -77,6 +77,7 @@ namespace BookingService.Infrastracture.Repositories
         {
             var bookingEntity = new BookingEntity()
             {
+                Id = booking.BookingId,
                 UserId = booking.UserId,
                 ServiceOrganizationId = booking.ServiceOrganizationId,
                 DateTime = booking.BookingTime,
