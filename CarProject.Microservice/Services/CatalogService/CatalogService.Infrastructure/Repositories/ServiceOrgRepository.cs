@@ -46,9 +46,9 @@ namespace CatalogService.Infrastructure.Repositories
             var existingServiceOrg = await _context.ServiceOrganizations.FindAsync(id);
             if (existingServiceOrg != null)
             {
-                existingServiceOrg.Description = serviceModel.Description; // пример свойства
-                                                                           // обновите остальные свойства по мере необходимости
-
+                existingServiceOrg.IdService = serviceModel.IdService;
+                existingServiceOrg.Price = serviceModel.Price;
+                existingServiceOrg.Description = serviceModel.Description;
                 await _context.SaveChangesAsync();
             }
         }

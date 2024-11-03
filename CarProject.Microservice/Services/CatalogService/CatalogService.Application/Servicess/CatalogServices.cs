@@ -76,5 +76,23 @@ namespace CatalogService.Application.Servicess
         {
             return await _serviceOrgRepository.GetOrg(organizationId);
         }
+
+        public async Task UpdateService(Guid serviceOrgId, Guid orgId, Guid serviceId, int price, string description)
+        {
+            var model = new ServiceOrg()
+            {
+                Id = serviceOrgId,
+                IdOrganization = orgId,
+                IdService = serviceId,
+                Price = price,
+                Description = description
+            };
+            await _serviceOrgRepository.Update(serviceOrgId, model);
+        }
+
+        public async Task DeleteService(Guid serviceOrgId)
+        {
+            await _serviceOrgRepository.Delete(serviceOrgId);
+        }
     }
 }
