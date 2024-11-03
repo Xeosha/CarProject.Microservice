@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const DeleteService = async (serviceOrgId) => {
+const DeleteService = async (serviceOrgId) => {
   try {
     const response = await axios
     .post("https://localhost:6061/api/Organization/deleteService", {
@@ -12,3 +12,5 @@ export const DeleteService = async (serviceOrgId) => {
       throw error;
   }
 };
+
+export default DeleteService;

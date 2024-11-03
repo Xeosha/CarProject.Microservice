@@ -42,8 +42,8 @@ namespace BookingService.Application.Services
             var booking = await GetBookingById(bookingId);
 
             _logger.LogInformation("\n\n Я вытянул booking: " + booking.BookingId);
-
-            booking.BookingStatus = BookingStatus.Confirmed;
+            
+            booking.BookingStatus = isConfirmed ? BookingStatus.Confirmed : BookingStatus.Declined;
 
             await _bookingsRepository.Update(booking);
             _logger.LogInformation("\n\n Я обновил booking: " + booking.BookingId);

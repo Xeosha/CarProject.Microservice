@@ -58,6 +58,7 @@ namespace BookingService.API.Hubs
                 var booking = await _bookingService.CreateBooking(Guid.Parse(userId), Guid.Parse(serviceOrganizationId), bookingTime);
 
                 await Clients.User(orgId).Notify(booking);
+                await Clients.User(userId).Notify(booking);
 
                 _logger.LogInformation($"Organization notified {booking.BookingStatus}");
             }
@@ -76,6 +77,7 @@ namespace BookingService.API.Hubs
             try
             {
                 var booking = await _bookingService.ConfirmBooking(Guid.Parse(bookingId), isConfirmed);
+
                 await Clients.User(booking.UserId.ToString()).Notify(booking);
                 _logger.LogInformation($"User notified {booking.BookingStatus}");
             }

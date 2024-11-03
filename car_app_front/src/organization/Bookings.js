@@ -6,14 +6,15 @@ const Bookings = ({ organizationId, connection, requests, setRequests }) => {
     const [loading, setLoading] = useState(true);
     const [noServicesMessage, setNoServicesMessage] = useState(false);
 
+    const userId = organizationId;
+    const mode = "organization";
+
     // Initial fetch of all bookings
     useEffect(() => {
         const fetchServices = async () => {
             setLoading(true);
             setNoServicesMessage(false);
 
-            const userId = organizationId;
-            const mode = "organization";
             const filteredServices = await GetAllBookings({ userId, mode });
 
             if (filteredServices && filteredServices.length > 0) {
@@ -40,11 +41,15 @@ const Bookings = ({ organizationId, connection, requests, setRequests }) => {
                 setBookings(prevBookings => {
                     // Проверяем, существует ли уже booking с таким же bookingId
                     const isDuplicate = prevBookings.some(b => b.bookingId === booking.bookingId);
-                    if (!isDuplicate) {
-                        // Добавляем новый объект только если его нет в массиве
+                    if (isDuplicate) {
+                        // Заменяем объект с тем же bookingId на новый объект
+                        return prevBookings.map(b =>
+                            b.bookingId === booking.bookingId ? booking : b
+                        );
+                    } else {
+                        // Добавляем новый объект, если его нет в массиве
                         return [...prevBookings, booking];
                     }
-                    return prevBookings; // Возвращаем старый массив, если дубликат найден
                 });
             });
 
@@ -61,8 +66,7 @@ const Bookings = ({ organizationId, connection, requests, setRequests }) => {
         if (connection) {
             try {
                 await connection.invoke('ConfirmBooking', bookingId, isConfirmed);
-                // Remove the request from the list after confirmation
-                setRequests(prevRequests => prevRequests.filter(req => req.bookingId !== bookingId));
+                setBookings(await GetAllBookings({ userId, mode }));
             } catch (e) {
                 console.error('Bookings.js confirmation failed: ', e);
             }
@@ -71,7 +75,6 @@ const Bookings = ({ organizationId, connection, requests, setRequests }) => {
 
     return (
         <div>
-
             {/* Bookings section */}
             <div>
                 {loading ? (

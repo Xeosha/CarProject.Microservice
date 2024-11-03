@@ -3,12 +3,10 @@ const Booking = async ({ connection, selectedOrganization, confirmationSlot, sel
     if (connection) {
         try {
             const { date, timeSlot } = confirmationSlot;
-            console.log(confirmationSlot);
-            console.log(date);
-            console.log(timeSlot);
+
             // Создаем объект для bookingTime, объединяя дату и время начала
             const bookingDateTime = new Date(
-                `${date.split("T")[0]}T${timeSlot}`
+                `${date.split("T")[0]}T${timeSlot}Z`
             ).toISOString();
 
             await connection.invoke('RequestBooking', selectedOrganization, selectedService.id, bookingDateTime);

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const UpdateService = async (serviceOrgId, orgId, serviceId, Price, Description) => {
+const UpdateService = async (serviceOrgId, orgId, serviceId, Price, Description) => {
   try {
-    const response = await axios
-    .post("https://localhost:6061/api/Organization/updateService", {
+      const response = await
+          axios.post('https://localhost:6061/api/Organization/updateService', {
         serviceOrgId,
         orgId,
         serviceId,
@@ -16,3 +16,5 @@ export const UpdateService = async (serviceOrgId, orgId, serviceId, Price, Descr
       throw error;
   }
 };
+
+export default UpdateService;

@@ -5,6 +5,7 @@ import TimeSlot from "../client/TimeSlot";
 import BookingModal from "../client/BookingModal";
 import Booking from "../api/Booking";
 import ModalWindow from "../components/ModalWindow";
+import Bookings from "../client/Bookings";
 
 
 
@@ -111,6 +112,8 @@ const ClientPage = ({ user, connection, requests, setRequests }) => {
                 <ModalWindow setIsModalOpen={setIsModalOpen}
                     modalMessage={modalMessage}/>
             )}
+            <h2>Запросы на запись</h2>
+            <Bookings clientId={user.id} connection={connection} requests={requests} setRequests={setRequests}/>
         </div>
     );
 };

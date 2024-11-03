@@ -69,7 +69,9 @@ namespace BookingService.Application.Services
                     {
                         // Проверяем, есть ли бронирование на текущий временной слот
                         var isBooked = bookingsByDayOfWeek.TryGetValue(currentDate.Date, out var dayBookings) &&
-                                       dayBookings.Any(b => b.BookingTime.TimeOfDay >= slot.StartTime && b.BookingTime.TimeOfDay < slot.EndTime);
+                            dayBookings.Any(b => b.BookingTime.TimeOfDay >= slot.StartTime &&
+                            b.BookingTime.TimeOfDay < slot.EndTime &&
+                            b.BookingStatus != BookingStatus.Declined);
 
                         var availableSlot = new AvailableTimeSlotDto
                         {

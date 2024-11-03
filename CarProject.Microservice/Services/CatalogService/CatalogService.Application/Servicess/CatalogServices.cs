@@ -94,5 +94,9 @@ namespace CatalogService.Application.Servicess
         {
             await _serviceOrgRepository.Delete(serviceOrgId);
         }
+        public async Task<List<ServiceModel>> GetNameServices()
+        {
+            return await _serviceRepository.GetAll();
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace CatalogService.Domain.Interfaces
         public Task UpdateService(Guid serviceOrgId, Guid orgId, Guid serviceId, int price, string description);
         public Task DeleteService(Guid serviceOrgId);
         public Task<List<ServiceOrg>> GetOrgServices(Guid organizationId);
+        public Task<List<ServiceModel>> GetNameServices();
 
     }
 }

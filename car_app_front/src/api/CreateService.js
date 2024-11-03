@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const CreateService = async (orgId, serviceId, Price, Description) => {
+const CreateService = async (orgId, serviceId, Price, Description) => {
   try {
     const response = await axios
     .post("https://localhost:6061/api/Organization/createService", {
@@ -15,3 +15,5 @@ export const CreateService = async (orgId, serviceId, Price, Description) => {
       throw error;
   }
 };
+
+export default CreateService;

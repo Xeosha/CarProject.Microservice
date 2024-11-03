@@ -1,5 +1,6 @@
 ﻿
 using CatalogService.Domain.Interfaces;
+using CatalogService.Domain.Interfaces.Models;
 using CatalogService.Domain.Interfaces.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using ShareDTO;
@@ -23,7 +24,11 @@ namespace CatalogService.API.Controllers
         {
             return await _catalogServices.GetAllServices();
         }
-
+        [HttpGet("getNameServices")]
+        public async Task<List<ServiceModel>> GetNameServices()
+        {
+            return await _catalogServices.GetNameServices();
+        }
         [HttpGet("getWorkingHours")]
         public async Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId)
         {
