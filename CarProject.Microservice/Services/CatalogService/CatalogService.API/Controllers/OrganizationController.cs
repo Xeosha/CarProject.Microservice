@@ -52,7 +52,7 @@ namespace CatalogService.API.Controllers
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        [HttpGet("showServices/{orgId}")]
+        [HttpGet("showServices")]
         public async Task<List<ServiceOrgDto>> ShowServices(Guid orgId)
         {
 
