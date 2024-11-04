@@ -1,5 +1,5 @@
-﻿using CatalogService.Domain.Interfaces;
-using CatalogService.Domain.Interfaces.Models;
+﻿using CatalogService.Domain.DTOs;
+using CatalogService.Domain.Interfaces;
 using CatalogService.Domain.Interfaces.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +7,7 @@ namespace CatalogService.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrganizationController
+    public class OrganizationController : ControllerBase
     {
         private readonly ICatalogServices _catalogServices;
         public OrganizationController(ICatalogServices catalogServices)
@@ -18,30 +18,21 @@ namespace CatalogService.API.Controllers
         /// <summary>
         /// Создать новую услугу организации
         /// </summary>
-        /// <param name="orgId">айди организации</param>
-        /// <param name="serviceId">айди услуги</param>
-        /// <param name="Price">цена</param>
-        /// <param name="Description">комментарий</param>
-        /// <returns></returns>
         [HttpPost("createService")]
-        public async Task CreateService(Guid orgId, Guid serviceId, int Price, string Description)
-        { 
-            await _catalogServices.AddServiceToOrg(orgId, serviceId, Price, Description); 
+        public async Task<IActionResult> CreateService([FromBody] CreateServiceDto dto)
+        {
+            await _catalogServices.AddServiceToOrg(dto.OrgId, dto.ServiceId, dto.Price, dto.Description);
+            return Ok();
         }
 
         /// <summary>
         /// Обновить услугу организации
         /// </summary>
-        /// <param name="serviceOrgId">айди услуги (с конкретной организацией)</param>
-        /// <param name="orgId">айди организации</param>
-        /// <param name="serviceId">айди услуги</param>
-        /// <param name="Price">цена</param>
-        /// <param name="Description">комментарий</param>
-        /// <returns></returns>
         [HttpPost("updateService")]
-        public async Task UpdateService(Guid serviceOrgId, Guid orgId, Guid serviceId, int Price, string Description)
+        public async Task<IActionResult> UpdateService([FromBody] UpdateServiceDto dto)
         {
-            await _catalogServices.UpdateService(serviceOrgId, orgId, serviceId, Price, Description);
+            await _catalogServices.UpdateService(dto.ServiceOrgId, dto.OrgId, dto.ServiceId, dto.Price, dto.Description);
+            return Ok();
         }
 
         /// <summary>
@@ -50,9 +41,10 @@ namespace CatalogService.API.Controllers
         /// <param name="serviceOrgId">айди услуги</param>
         /// <returns></returns>
         [HttpPost("deleteService")]
-        public async Task DeleteService(Guid serviceOrgId)
+        public async Task<IActionResult> DeleteService([FromBody] Guid serviceOrgId)
         {
             await _catalogServices.DeleteService(serviceOrgId);
+            return Ok();
         }
 
         /// <summary>
@@ -60,7 +52,7 @@ namespace CatalogService.API.Controllers
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        [HttpPost("showServices")]
+        [HttpGet("showServices/{orgId}")]
         public async Task<List<ServiceOrgDto>> ShowServices(Guid orgId)
         {
 
