@@ -1,6 +1,6 @@
 // Services.js
 import React, { useEffect, useState } from 'react';
-import GetServiceOrgIds from "../api/GetServiceOrgIds";
+import ShowServices from "../api/ShowServices";
 
 const Services = ({ organizationID }) => {
     const [services, setServices] = useState([]);
@@ -13,7 +13,7 @@ const Services = ({ organizationID }) => {
             setLoading(true);
             setNoServicesMessage(false); // Сброс сообщения
 
-            const filteredServices = await GetServiceOrgIds({ organizationID });
+            const filteredServices = await ShowServices({ organizationID });
 
             if (filteredServices && filteredServices.length > 0) {
                 setServices(filteredServices);

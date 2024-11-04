@@ -33,7 +33,8 @@ function TimeSlot({ timeSlot, setTimeSlot, setConfirmationSlot,setSelectedOrgani
         <div className="time-slots-modal">
             <button className="close-modal" onClick={closeTimeSlotsModal}>✖</button>
             <div>
-                <h3>Доступные временные слоты:</h3>
+                <h3 align={"center"}>Доступные временные слоты:</h3>
+                {timeSlot.length > 0 && timeSlot[0] !== "empty" ? (
                 <table>
                     <thead>
                     <tr>
@@ -63,6 +64,10 @@ function TimeSlot({ timeSlot, setTimeSlot, setConfirmationSlot,setSelectedOrgani
                     </tr>
                     </tbody>
                 </table>
+                ) : (
+                    timeSlot.length > 0 ? (<p align={"center"}>Организация не предоставила открытых временных слотов</p>
+                    ) : (
+                        <p align={"center"}>Загрузка доступных слотов...</p>) )}
             </div>
         </div>
     )

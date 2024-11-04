@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="e8216593-661b-4700-b148-924abcc90f67" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Booking.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Booking.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/organization/Bookings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/Bookings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/GetAvailableTimes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/GetAvailableTimes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/ShowServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/ShowServices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/UpdateServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/UpdateServices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/Organizations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/Organizations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/TimeSlot.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/TimeSlot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/organization/Services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/organization/Services.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,33 +32,33 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2o9Yp1g4thHtPeVuWudABJgQrPe" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/C#/CarProject/car_app_front",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.npm start.executor": "Run",
-    "settings.editor.selected.configurable": "JavaScript.Libraries",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/C#/CarProject/car_app_front&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.npm start.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\pro\CarProject.Microservice\car_app_front\src\api" />
@@ -102,6 +106,7 @@
       <workItem from="1730577303187" duration="12038000" />
       <workItem from="1730617991280" duration="5938000" />
       <workItem from="1730658355310" duration="3852000" />
+      <workItem from="1730717038496" duration="3210000" />
     </task>
     <servers />
   </component>

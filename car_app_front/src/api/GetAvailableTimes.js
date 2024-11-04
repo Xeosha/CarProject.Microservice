@@ -1,19 +1,19 @@
 //asdf
 import React from "react";
 
-const GetAvailableTimes = async () => {
-    try {
-        const response = await fetch('https://localhost:6060/api/User/getAvailableTimes');
-        const data = await response.json();
+const GetAvailableTimes = async ({service}) => {
 
-        if (Array.isArray(data)) {
-            return data;
-        } else {
-            console.error('Получены некорректные данные:', data);
+        try {
+            const response = await fetch(`https://localhost:6060/api/User/getAvailableTimes?organizationServiceId=${service.id}`);
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                return data;
+            } else {
+                return ["empty"];
+            }
+        } catch (error) {
+            console.error('Ошибка загрузки временных слотов:', error);
         }
-    } catch (error) {
-        console.error('Ошибка загрузки услуг:', error);
-    }
     return [];
 };
 

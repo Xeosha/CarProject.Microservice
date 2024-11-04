@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import GetAvailableTimes from "../api/GetAvailableTimes";
 
 function Organizations({ organizations, services, selectedService, selectedOrganization, setSelectedOrganization, setTimeSlot }) {
     const [filteredOrganizations, setFilteredOrganizations] = useState(organizations);
@@ -28,18 +29,14 @@ function Organizations({ organizations, services, selectedService, selectedOrgan
         const service = services.find(item =>
             item.idOrganization === organizationId && item.idService === selectedService.idService
         );
-
+        let data = [];
         if (service) {
-            try {
-                const response = await fetch(`https://localhost:6060/api/User/getAvailableTimes?organizationServiceId=${service.id}`);
-                const data = await response.json();
-                setTimeSlot(data);
-            } catch (error) {
-                console.error('Ошибка загрузки временных слотов:', error);
-            }
+            data = await GetAvailableTimes({service});
         } else {
             console.warn('Сервис для выбранной организации и услуги не найден.');
         }
+
+        setTimeSlot(data);
     };
 
     return (
@@ -52,20 +49,29 @@ function Organizations({ organizations, services, selectedService, selectedOrgan
             />
             <h3>Организации, предоставляющие {selectedService.serviceName}:</h3>
             <ul>
-                {filteredOrganizations.map((org) => (
-                    <li
-                        key={org.id}
-                        onMouseEnter={() => setHoveredOrg(org.id)}
-                        onMouseLeave={() => setHoveredOrg(null)}
-                        onClick={() => handleOrganizationSelect(org.id)}
-                        className={`organization-item ${selectedOrganization === org.id ? 'selected' : ''} ${hoveredOrg === org.id ? 'hovered' : ''}`}
-                    >
-                        <div className="organization-item-content">
-                            <span>{org.name}</span>
-                            <span>{org.address}</span>
-                        </div>
-                    </li>
-                ))}
+                {filteredOrganizations.length > 0 ?
+                    (filteredOrganizations.map((org) => (
+                                <li
+                                    key={org.id}
+                                    onMouseEnter={() => setHoveredOrg(org.id)}
+                                    onMouseLeave={() => setHoveredOrg(null)}
+                                    onClick={() => handleOrganizationSelect(org.id)}
+                                    className={`organization-item ${selectedOrganization === org.id ? 'selected' : ''} ${hoveredOrg === org.id ? 'hovered' : ''}`}
+                                >
+                                    <div className="organization-item-content">
+                                        <span>{org.name}</span>
+                                        <span>{org.address}</span>
+                                    </div>
+                                </li>
+                            )
+                        )
+                    ) : (
+                        <li
+                            key={0}>
+                            <p>Не найдены подходящие организации</p>
+                        </li>
+                    )
+                }
             </ul>
         </div>
     );
