@@ -45,13 +45,13 @@ namespace BookingService.Application.Services
             // Группируем существующие бронирования по дню недели для удобства поиска
             var bookingsByDayOfWeek = existingBookings.GroupBy(b => b.BookingTime.Date).ToDictionary(g => g.Key, g => g.ToList());
 
-            // Определяем текущую дату
+            // Определяем текущую дату и время
             var startDate = DateTime.UtcNow;
 
             for (int i = 0; i < 7; i++)
             {
                 // Определяем дату для текущего дня (сейчас + i дней)
-                var currentDate = startDate.AddDays(i);
+                var currentDate = startDate.Date.AddDays(i);
                 var dayOfWeek = currentDate.DayOfWeek;
 
                 // Находим рабочие часы для текущего дня
@@ -67,8 +67,18 @@ namespace BookingService.Application.Services
 
                     foreach (var slot in workingHourForDay.TimeSlots)
                     {
+                        // Формируем полное время начала и конца слота
+                        var slotStartDateTime = currentDate.Add(slot.StartTime);
+                        var slotEndDateTime = currentDate.Add(slot.EndTime);
+
+                        // Пропускаем слот, если его начало находится в прошлом или меньше чем через час от текущего момента
+                        if (slotStartDateTime <= startDate.AddHours(1))
+                        {
+                            continue;
+                        }
+
                         // Проверяем, есть ли бронирование на текущий временной слот
-                        var isBooked = bookingsByDayOfWeek.TryGetValue(currentDate.Date, out var dayBookings) &&
+                        var isBooked = bookingsByDayOfWeek.TryGetValue(currentDate, out var dayBookings) &&
                             dayBookings.Any(b => b.BookingTime.TimeOfDay >= slot.StartTime &&
                             b.BookingTime.TimeOfDay < slot.EndTime &&
                             b.BookingStatus != BookingStatus.Declined);
@@ -83,11 +93,15 @@ namespace BookingService.Application.Services
                         availableDay.TimeSlots.Add(availableSlot);
                     }
 
-                    availableDays.Add(availableDay);
+                    if (availableDay.TimeSlots.Any()) // добавляем только если есть доступные слоты
+                    {
+                        availableDays.Add(availableDay);
+                    }
                 }
             }
 
             return availableDays;
         }
+
     }
 }
