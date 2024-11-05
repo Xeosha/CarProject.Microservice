@@ -11,7 +11,7 @@ namespace BookingService.Domain.Interfaces
         public Task<Booking> ConfirmBooking(Guid bookingId, bool isConfirmed);
         public Task<Booking?> GetBookingById(Guid bookingId);
         public Task<List<Booking>> GetBookings(Guid organizationServiceId, DateTime startDate, DateTime endDate);
-        public Task<List<Booking>> GetBookingsForUser(Guid userId);
-        public Task<List<Booking>> GetBookingsForOrg(Guid orgId);
+        public Task<List<BookingDto>> GetBookingsForUser(Guid userId);
+        public Task<List<BookingDto>> GetBookingsForOrg(Guid orgId);
     }
 }

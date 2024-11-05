@@ -28,7 +28,7 @@ namespace BookingService.API.Controllers
         }
 
         [HttpGet("getAllBookings")]
-        public async Task<List<Booking>> GetAllBookings(Guid userId)
+        public async Task<List<BookingDto>> GetAllBookings(Guid userId)
         {
             return await _bookingService.GetBookingsForUser(userId);
         }

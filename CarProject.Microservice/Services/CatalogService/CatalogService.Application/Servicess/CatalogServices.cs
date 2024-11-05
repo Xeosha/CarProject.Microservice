@@ -1,10 +1,7 @@
 ﻿using CatalogService.Domain.Interfaces;
 using CatalogService.Domain.Interfaces.Models;
-using CatalogService.Domain.Interfaces.Models.Dto;
 using CatalogService.Domain.Interfaces.Repositories;
 using ShareDTO;
-using System.Diagnostics;
-using System.Security.Cryptography;
 
 namespace CatalogService.Application.Servicess
 {

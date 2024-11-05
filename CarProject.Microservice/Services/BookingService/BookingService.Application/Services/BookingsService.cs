@@ -58,24 +58,79 @@ namespace BookingService.Application.Services
             return await _bookingsRepository.GetAll(organizationServiceId, start, end);
         }
 
-        public async Task<List<Booking>> GetBookingsForUser(Guid userId)
+        public async Task<List<BookingDto>> GetBookingsForUser(Guid userId)
         {
-            return await _bookingsRepository.GetForUser(userId);
-        }
+            // Получаем все бронирования для указанного пользователя
+            var bookings = await _bookingsRepository.GetForUser(userId);
 
-        public async Task<List<Booking>> GetBookingsForOrg(Guid organizationId)
-        {
-            // Получаем список идентификаторов `ServiceOrgId`, связанных с `organizationId` из CatalogService
-            var serviceOrgIds = await _catalogServiceClient.GetServiceOrgIdsForOrganization(organizationId);
-
-            // Если `ServiceOrgId` не найдены, возвращаем пустой список
-            if (serviceOrgIds == null || !serviceOrgIds.Any())
+            if (bookings == null || !bookings.Any())
             {
-                return new List<Booking>();
+                return new List<BookingDto>();
             }
 
-            // Запрашиваем все бронирования, где `ServiceOrgId` входит в полученный список
-            return await _bookingsRepository.GetForOrg(serviceOrgIds);
+            // Извлекаем список идентификаторов ServiceOrg для всех бронирований
+            var serviceOrgIds = bookings.Select(b => b.ServiceOrganizationId).Distinct().ToList();
+
+            // Получаем список ServiceOrgDto, связанных с идентификаторами ServiceOrg
+            var serviceOrgs = await _catalogServiceClient.GetServicesWithServiceOrgId(serviceOrgIds);
+
+            // Создаем список BookingDto с вложенным объектом ServiceOrgDto
+            var bookingDtos = bookings.Select(booking =>
+            {
+                var serviceOrg = serviceOrgs.FirstOrDefault(s => s.Id == booking.ServiceOrganizationId);
+                return new BookingDto
+                {
+                    BookingId = booking.BookingId,
+                    UserId = booking.UserId,
+                    BookingTime = booking.BookingTime,
+                    BookingStatus = booking.BookingStatus,
+                    Notes = booking.Notes,
+                    ServiceOrg = serviceOrg // Вложенный объект ServiceOrgDto
+                };
+            }).ToList();
+
+            return bookingDtos;
+        }
+
+        public async Task<List<BookingDto>> GetBookingsForOrg(Guid organizationId)
+        {
+
+            _logger.LogInformation("Начато получение бронирований для организации с ID: {OrganizationId}", organizationId);
+
+            // Получаем список ServiceOrgDto, связанных с organizationId
+            var serviceOrgs = await _catalogServiceClient.GetServiceOrgIdsForOrganization(organizationId);
+
+            if (serviceOrgs == null || !serviceOrgs.Any())
+            {
+                return new List<BookingDto>();
+            }
+
+            _logger.LogInformation("Найдено {ServiceOrgsCount} услуг для организации", serviceOrgs.Count);
+
+            // Извлекаем список идентификаторов ServiceOrg для выборки бронирований
+            var serviceOrgIds = serviceOrgs.Select(s => s.Id).ToList();
+
+            // Получаем все бронирования для указанной организации
+            var bookings = await _bookingsRepository.GetForOrg(serviceOrgIds);
+
+            _logger.LogInformation("Найдено {BookingCount} бронирований для организации", bookings.Count);
+
+            // Создаем список BookingDto с вложенным объектом ServiceOrgDto
+            var bookingDtos = bookings.Select(booking =>
+            {
+                var serviceOrg = serviceOrgs.FirstOrDefault(s => s.Id == booking.ServiceOrganizationId);
+                return new BookingDto
+                {
+                    BookingId = booking.BookingId,
+                    UserId = booking.UserId,
+                    BookingTime = booking.BookingTime,
+                    BookingStatus = booking.BookingStatus,
+                    Notes = booking.Notes,
+                    ServiceOrg = serviceOrg  // Вложенный объект ServiceOrgDto
+                };
+            }).ToList();
+
+            return bookingDtos;
         }
 
     }

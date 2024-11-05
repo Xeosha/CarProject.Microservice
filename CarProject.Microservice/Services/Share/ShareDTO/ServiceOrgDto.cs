@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatalogService.Domain.Interfaces.Models.Dto
+namespace ShareDTO
 {
     public class ServiceOrgDto
     {
@@ -13,7 +13,7 @@ namespace CatalogService.Domain.Interfaces.Models.Dto
         public Guid IdService { get; set; }
         public string OrganizationName { get; set; } = string.Empty;
         public string location { get; set; } = string.Empty;
-        public string ServiceName { get; set; } = string.Empty; 
+        public string ServiceName { get; set; } = string.Empty;
         public int Price { get; set; }
         public string Description { get; set; } = string.Empty;
     }

@@ -28,10 +28,10 @@ namespace BookingService.Application.Services
             return workingHours;
         }
 
-        public async Task<List<Guid>> GetServiceOrgIdsForOrganization(Guid organizationId)
+        public async Task<List<ServiceOrgDto>> GetServiceOrgIdsForOrganization(Guid organizationId)
         {
             // Запрос к CatalogService, чтобы получить список ServiceOrgId для данной организации
-            var response = await _httpClient.GetAsync($"/api/Organization/getServiceOrgIds?organizationId={organizationId}");
+            var response = await _httpClient.GetAsync($"/api/Organization/showServices?orgId={organizationId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -39,8 +39,33 @@ namespace BookingService.Application.Services
                 throw new Exception("Не удалось получить ServiceOrgId из CatalogService");
             }
 
-            var serviceOrgIds = await response.Content.ReadFromJsonAsync<List<Guid>>();
-            return serviceOrgIds ?? new List<Guid>();
+            var serviceOrgIds = await response.Content.ReadFromJsonAsync<List<ServiceOrgDto>>();
+            return serviceOrgIds ?? new List<ServiceOrgDto>();
+        }
+
+        public async Task<List<ServiceOrgDto>> GetServicesWithServiceOrgId(List<Guid> serviceOrgIds)
+        {
+            var response = await _httpClient.GetAsync($"/api/Catalog/getServices");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // Обработка ошибки
+                throw new Exception("Не удалось получить servicesDto из getServices");
+            }
+
+            var serviceOrgs = await response.Content.ReadFromJsonAsync<List<ServiceOrgDto>>();
+
+
+            // Если сервисы не найдены, возвращаем пустой список
+            if (serviceOrgs == null || !serviceOrgs.Any())
+            {
+                return new List<ServiceOrgDto>();
+            }
+
+            // Фильтруем сервисы по переданным идентификаторам
+            var filteredServiceOrgs = serviceOrgs.Where(s => serviceOrgIds.Contains(s.Id)).ToList();
+
+            return filteredServiceOrgs;
         }
     }
 }

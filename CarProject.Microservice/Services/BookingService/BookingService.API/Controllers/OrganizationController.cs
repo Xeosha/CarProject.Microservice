@@ -1,6 +1,7 @@
 ﻿using BookingService.API.Hubs;
 using BookingService.Domain.Interfaces;
 using BookingService.Domain.Models;
+using BookingService.Domain.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -22,7 +23,7 @@ namespace BookingService.API.Controllers
         }
 
         [HttpGet("getAllBookings")]
-        public async Task<List<Booking>> GetAllBookings([FromQuery] Guid organizationId)
+        public async Task<List<BookingDto>> GetAllBookings([FromQuery] Guid organizationId)
         {
             return await _bookingService.GetBookingsForOrg(organizationId);
         }

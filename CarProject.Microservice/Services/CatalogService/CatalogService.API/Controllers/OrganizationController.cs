@@ -1,7 +1,7 @@
 ﻿using CatalogService.Domain.DTOs;
 using CatalogService.Domain.Interfaces;
-using CatalogService.Domain.Interfaces.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
+using ShareDTO;
 
 namespace CatalogService.API.Controllers
 {
@@ -58,19 +58,6 @@ namespace CatalogService.API.Controllers
 
             var serviceOrgs = await _catalogServices.GetAllServices();
             return serviceOrgs.Where(s => s.IdOrganization == orgId).ToList();
-        }
-
-
-        /// <summary>
-        /// Для связи между микросервисами
-        /// </summary>
-        /// <param name="organizationId"></param>
-        /// <returns></returns>
-        [HttpGet("getServiceOrgIds")]
-        public async Task<List<Guid>> GetServiceOrgIds(Guid organizationId)
-        {
-            var serviceOrgs = await _catalogServices.GetOrgServices(organizationId);
-            return serviceOrgs.Select(s => s.Id).ToList();
         }
     }
 }
