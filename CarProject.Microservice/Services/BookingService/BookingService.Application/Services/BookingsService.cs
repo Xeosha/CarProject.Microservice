@@ -29,7 +29,7 @@ namespace BookingService.Application.Services
             var bookingId = Guid.NewGuid();
 
             // здесь проверить, что такого айди нет
-
+                
             var booking = Booking.Create(bookingId, userId, serviceOrganizationId, bookingTime);
 
             await _bookingsRepository.Add(booking);
