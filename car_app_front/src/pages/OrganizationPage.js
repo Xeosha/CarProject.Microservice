@@ -69,6 +69,7 @@ const OrganizationPage = ({ user, connection }) => {
 
     return (
         <div>
+            <h1>{user.name}</h1>
             <h1>Услуги вашей организации</h1>
             <Services organizationID={organizationId} servicesVersion={servicesVersion}/>
             <h2>Запросы на запись</h2>

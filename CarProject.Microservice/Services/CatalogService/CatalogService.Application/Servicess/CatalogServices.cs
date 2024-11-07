@@ -58,6 +58,7 @@ namespace CatalogService.Application.Servicess
                     Id = serviceOrg.Id,
                     IdOrganization = serviceOrg.IdOrganization,
                     OrganizationName = organization?.Name ?? string.Empty,
+                    location = organization.Location,
                     IdService = serviceOrg.IdService,
                     ServiceName = service?.Name ?? string.Empty,
                     Price = serviceOrg.Price,

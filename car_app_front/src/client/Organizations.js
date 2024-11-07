@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GetAvailableTimes from "../api/GetAvailableTimes";
 
-function Organizations({ organizations, services, selectedService, selectedOrganization, setSelectedOrganization, setTimeSlot }) {
+function Organizations({ organizations, services, selectedService,setSelectedService, selectedOrganization, setSelectedOrganization, setTimeSlot }) {
     const [filteredOrganizations, setFilteredOrganizations] = useState(organizations);
     const [searchTerm, setSearchTerm] = useState('');
     const [minPrice, setMinPrice] = useState('');
@@ -60,6 +60,7 @@ function Organizations({ organizations, services, selectedService, selectedOrgan
         const service = services.find(item =>
             item.idOrganization === organizationId && item.idService === selectedService.idService
         );
+        setSelectedService(service);
         let data = [];
         if (service) {
             data = await GetAvailableTimes({ service });

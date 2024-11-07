@@ -2,12 +2,11 @@ import React, {useEffect, useState} from "react";
 import GetServices from "../api/GetServices";
 
 function Services({ services, setServices, selectedService, setSelectedService,setOrganizations }) {
-
+    const [filteredServices, setFilteredServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [noServicesMessage, setNoServicesMessage] = useState(false);
 
     useEffect(() => {
-        // Функция для получения данных и обновления состояния
         const fetchServices = async () => {
             setLoading(true);
             setNoServicesMessage(false); // Сброс сообщения
@@ -16,8 +15,14 @@ function Services({ services, setServices, selectedService, setSelectedService,s
 
             if (services && services.length > 0) {
                 setServices(services);
+                // Фильтруем уникальные записи по idService
+                const uniqueServices = services.filter((service, index, self) =>
+                    index === self.findIndex((s) => s.idService === service.idService)
+                );
+
+                setFilteredServices(uniqueServices);
             } else {
-                setServices([]);
+                setFilteredServices([]);
                 // Устанавливаем таймер для показа сообщения об отсутствии услуг
                 setTimeout(() => {
                     setNoServicesMessage(true);
@@ -29,6 +34,8 @@ function Services({ services, setServices, selectedService, setSelectedService,s
 
         fetchServices();
     }, []);
+
+
 
     // Обработка выбора услуги
     const handleServiceSelect = (service) => {
@@ -54,7 +61,7 @@ function Services({ services, setServices, selectedService, setSelectedService,s
 
     return (
         <div className="services-container">
-            {services.map(service => (
+            {filteredServices.map(service => (
                 <div
                     key={service.id}
                     className={`service-box ${selectedService?.id === service.id ? 'selected' : ''}`}

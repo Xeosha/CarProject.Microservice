@@ -23,6 +23,7 @@ const ClientPage = ({ user, connection, requests, setRequests }) => {
 
     const toBook = async (description) => {
         if (connection && selectedOrganization && confirmationSlot && selectedService) {
+            console.log(selectedService,"!!!", selectedOrganization);
             try {
                 // Call the Bookings.js function to send the booking request
                 await Booking({
@@ -83,6 +84,7 @@ const ClientPage = ({ user, connection, requests, setRequests }) => {
                     <Organizations organizations={organizations}
                                    services={services}
                                    selectedService={selectedService}
+                                   setSelectedService={setSelectedService}
                                    selectedOrganization={selectedOrganization}
                                    setSelectedOrganization={setSelectedOrganization}
                                    setTimeSlot={setTimeSlot}/>
