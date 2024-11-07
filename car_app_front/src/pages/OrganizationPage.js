@@ -4,14 +4,29 @@ import Bookings from '../organization/Bookings';
 import FormUpdateService from "../organization/FormUpdateService";
 import FormCreateService from "../organization/FormCreateService";
 import FormDeleteService from "../organization/FormDeleteService";
+import GetNameServices from "../api/GetNameServices";
+import ModalWindow from "../components/ModalWindow";
 
-const OrganizationPage = ({ user, connection, requests, setRequests }) => {
-    const [services, setServices] = useState([]);
+const OrganizationPage = ({ user, connection }) => {
     const organizationId = user.id;
     const [isFormVisibleCreate, setIsFormVisibleCreate] = useState(false);
     const [isFormVisibleUpdate, setIsFormVisibleUpdate] = useState(false);
     const [isFormVisibleDelete, setIsFormVisibleDelete] = useState(false);
+    const [allServices, setAllServices] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [servicesVersion, setServicesVersion] = useState(0); // состояние-триггер для обновления Services
 
+    const fetchServices = async () => {
+
+        const all = await GetNameServices();
+
+        setAllServices(all);
+        setServicesVersion(prev => prev + 1); // Обновляем servicesVersion
+    };
+    // Initial fetch of all bookings
+    useEffect(() => {
+        fetchServices();
+    }, []);
 
 
     const handleShowFormCreate = () => {
@@ -21,8 +36,9 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
         setIsFormVisibleCreate(false);
     };
     const handleFormSubmitCreate = () => {
-        console.log("Форма успешно отправлена");
+        setIsModalOpen(true);
         handleHideFormCreate();
+        fetchServices();
     };
 
     const handleShowFormUpdate = () => {
@@ -32,8 +48,9 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
         setIsFormVisibleUpdate(false);
     };
     const handleFormSubmitUpdate = () => {
-        console.log("Форма успешно отправлена");
+        setIsModalOpen(true);
         handleHideFormUpdate();
+        fetchServices();
     };
 
     const handleShowFormDelete = () => {
@@ -43,8 +60,9 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
         setIsFormVisibleDelete(false);
     };
     const handleFormSubmitDelete = () => {
-        console.log("Форма успешно отправлена");
+        setIsModalOpen(true);
         handleHideFormDelete();
+        fetchServices();
     };
 
 
@@ -52,9 +70,9 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
     return (
         <div>
             <h1>Услуги вашей организации</h1>
-            <Services organizationID={organizationId} services={services} setServices={setServices}/>
+            <Services organizationID={organizationId} servicesVersion={servicesVersion}/>
             <h2>Запросы на запись</h2>
-            <Bookings organizationId={organizationId} connection={connection} requests={requests} setRequests={setRequests}/>
+            <Bookings organizationId={organizationId} connection={connection} servicesVersion={servicesVersion}/>
             <button onClick={handleShowFormCreate}>Добавить новую услугу</button>
             <button onClick={handleShowFormUpdate}>Редактировать услугу</button>
             <button onClick={handleShowFormDelete}>Удалить услугу</button>
@@ -62,6 +80,8 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
                 <div className="confirmation-modal">
                     <div className="confirmation-modal button">
                         <FormCreateService
+                            orgId={organizationId}
+                            services={allServices}
                             onFormSubmit={handleFormSubmitCreate}
                             onCancel={handleHideFormCreate}
                         />
@@ -72,6 +92,8 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
                 <div className="confirmation-modal">
                     <div className="confirmation-modal button">
                         <FormUpdateService
+                            orgId={organizationId}
+                            services={allServices}
                             onFormSubmit={handleFormSubmitUpdate}
                             onCancel={handleHideFormUpdate}
                         />
@@ -82,12 +104,16 @@ const OrganizationPage = ({ user, connection, requests, setRequests }) => {
                 <div className="confirmation-modal">
                     <div className="confirmation-modal button">
                         <FormDeleteService
+                            organizationID={organizationId}
                             onFormSubmit={handleFormSubmitDelete}
                             onCancel={handleHideFormDelete}
                         />
                     </div>
                 </div>
             )}
+            {isModalOpen &&
+                (<ModalWindow modalMessage={"Форма успешно отправлена!"} setIsModalOpen={setIsModalOpen} />)
+            }
         </div>
     );
 };

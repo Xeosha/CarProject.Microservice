@@ -39,7 +39,8 @@ function Services({ services, setServices, selectedService, setSelectedService,s
             .map(item => ({
                 id: item.idOrganization,
                 name: item.organizationName,
-                address: item.location
+                address: item.location,
+                price: item.price
             }));
 
         if (orgForService.length > 0) {

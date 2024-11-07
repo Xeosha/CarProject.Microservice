@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import UpdateService from '../api/UpdateServices';
-import GetServices from '../api/GetServices';
+import ShowServices from "../api/ShowServices";
 // Компонент формы
-const FormUpdateService = ({ onFormSubmit, onCancel }) => {
-    const [serviceOrgId, setServiceOrgId] = useState('6408aaa9-d97f-4034-803f-4ceff1763fa9');
-    const [orgId, setOrgId] = useState('3a6b5438-c8b3-4c0e-9ad4-8662347c30ac');
-    const [serviceId, setServiceId] = useState('f909acb4-c7e0-49ec-8eb3-173396806840');
+const FormUpdateService = ({ onFormSubmit, onCancel, orgId, services }) => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+    const [serviceOrgId, setServiceOrgId] = useState();
+    const [serviceId, setServiceId] = useState(services[0].id); // Устанавливаем id первой услуги по умолчанию
+    const [servicesOrg, setServicesOrg] = useState([]);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            const organizationID = orgId;
+            const services = await ShowServices({ organizationID });
+            setServicesOrg(services);
+            setServiceOrgId(services[0].id)
+        };
+        fetchServices();
+    }, [orgId]);
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -28,13 +38,32 @@ const FormUpdateService = ({ onFormSubmit, onCancel }) => {
     return(
         <form onSubmit={handleSubmit}>
             <div>
+                <label htmlFor="serviceOrgId">ServiceOrg ID:</label>
+                <select
+                    id="serviceOrgId"
+                    value={serviceOrgId}
+                    onChange={(e) => setServiceOrgId(e.target.value)}
+                >
+                    {servicesOrg.map((service) => (
+                        <option key={service.id} value={service.id}>
+                            {service.serviceName + " " + service.price + " " + service.description}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div>
                 <label htmlFor="serviceId">Service ID:</label>
-                <input
-                    type="text"
+                <select
                     id="serviceId"
                     value={serviceId}
                     onChange={(e) => setServiceId(e.target.value)}
-                />
+                >
+                    {services.map((service) => (
+                        <option key={service.id} value={service.id}>
+                            {service.name}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label htmlFor="price">Price:</label>

@@ -1,38 +1,43 @@
 import React, { useState } from "react";
 import CreateService from '../api/CreateService';
-// Компонент формы
-const FormCreateService = ({ onFormSubmit, onCancel }) => {
-    const [orgId, setOrgId] = useState('3a6b5438-c8b3-4c0e-9ad4-8662347c30ac');
-    const [serviceId, setServiceId] = useState('');
+
+
+const FormCreateService = ({ orgId, onFormSubmit, onCancel, services }) => {
+    const [serviceId, setServiceId] = useState(services[0].id); // Устанавливаем id первой услуги по умолчанию
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const priceNumber = parseFloat(price); // parseFloat  для преобразования в  number
+            const priceNumber = parseFloat(price); // Преобразуем строку в число
             const response = await CreateService(orgId, serviceId, priceNumber, description);
-            if (response.success) {
+            if (!response) {
                 console.log("Услуга успешно создана:", response);
                 onFormSubmit();
             } else {
                 console.error("Ошибка создания услуги:", response.error);
-                // Обработайте ошибку
             }
         } catch (error) {
             console.error("Error creating service:", error);
-            // Обработайте ошибку
         }
     };
-    return(
+
+    return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="serviceId">Service ID:</label>
-                <input
-                    type="text"
+                <label htmlFor="serviceId">Service:</label>
+                <select
                     id="serviceId"
                     value={serviceId}
                     onChange={(e) => setServiceId(e.target.value)}
-                />
+                >
+                    {services.map((service) => (
+                        <option key={service.id} value={service.id}>
+                            {service.name}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label htmlFor="price">Price:</label>
@@ -46,7 +51,6 @@ const FormCreateService = ({ onFormSubmit, onCancel }) => {
             <div>
                 <label htmlFor="description">Description:</label>
                 <textarea
-                    type="text"
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -57,4 +61,5 @@ const FormCreateService = ({ onFormSubmit, onCancel }) => {
         </form>
     );
 };
+
 export default FormCreateService;

@@ -69,7 +69,7 @@ li {
 }
 
 /* Стили для форм */
-input, textarea {
+input, textarea, select {
     width: calc(100% - 20px); /* Ширина на всю доступную ширину с учетом отступов */
     max-width: 300px;
     padding: 10px; /* Отступы внутри полей */
@@ -78,7 +78,7 @@ input, textarea {
     border-radius: 4px; /* Закругленные углы */
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     border-color: #009688; /* Бирюзовый цвет границы при фокусе */
     outline: none; /* Убрать контур */
 }
@@ -121,7 +121,9 @@ input:focus, textarea:focus {
     cursor: pointer; /* Указатель курсора */
     transition: background-color 0.3s; /* Плавный переход цвета */
 }
-
+.service-box:hover {
+    background-color: #9ef3a0; /* Зеленый цвет при наведении */
+}
 /* Стили для выбранной услуги */
 .service-box.selected {
     background-color: #4CAF50; /* Зеленый цвет при выборе */
@@ -131,11 +133,12 @@ input:focus, textarea:focus {
 /* Стили для списка организаций */
 .organization-item {
     display: flex; /* Используем flexbox для выравнивания */
-    justify-content: space-between; /* Пробел между элементами */
     padding: 8px; /* Внутренний отступ */
     border-bottom: 1px solid #ccc; /* Рамка снизу */
     cursor: pointer; /* Указатель курсора */
     transition: background-color 0.3s; /* Плавный переход цвета */
+    width: 100%;
+    border-radius: 8px; /* Скругленные углы */
 }
 
 /* Стили для выделенной строки */
@@ -146,8 +149,42 @@ input:focus, textarea:focus {
 
 /* Стили для выделенной строки при наведении */
 .organization-item.hovered {
-    background-color: #f0f0f0; /* Светлый фон при наведении */
+    background-color: #c0c0c0; /* Светлый фон при наведении */
 }
+
+.organization-item-content {
+    display: flex;
+    justify-content: flex-start; /* Выравнивание элементов по левому краю */
+    width: 100%;
+}
+
+.organization-item-content span {
+    flex-shrink: 0;
+    text-align: left;
+}
+
+/* Первая колонка */
+.organization-item-content span:nth-child(1) {
+    flex-basis: 25%; /* Ширина четверти контейнера */
+}
+
+/* Вторая колонка */
+.organization-item-content span:nth-child(2) {
+    flex-basis: 25%; /* Ширина четверти контейнера */
+}
+
+/* Третья колонка */
+.organization-item-content span:nth-child(3) {
+    flex-basis: 50%; /* Ширина половины контейнера */
+}
+
+
+
+
+
+
+
+
 
 
 /* Стили для временных слотов */
@@ -198,10 +235,13 @@ input:focus, textarea:focus {
 }
 
 /* Стиль для ввода поиска */
-input[type="text"] {
+input[type="text"], input[type="number"], select {
     width: 100%; /* Ширина 100% */
     padding: 10px; /* Внутренний отступ */
     margin-bottom: 20px; /* Отступ снизу */
     border: 1px solid #ccc; /* Светлая рамка */
     border-radius: 5px; /* Скругленные углы */
+}
+input[type="number"] {
+    width: 93%;
 }

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import ShowServices from "../api/ShowServices";
 
-const Services = ({ organizationID }) => {
+const Services = ({ organizationID, servicesVersion }) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [noServicesMessage, setNoServicesMessage] = useState(false);
@@ -29,7 +29,7 @@ const Services = ({ organizationID }) => {
         };
 
         fetchServices();
-    }, [organizationID]);
+    }, [servicesVersion]);
 
     return (
         <div>
@@ -39,8 +39,7 @@ const Services = ({ organizationID }) => {
                 services.map(service => (
                     <div key={service.id}>
                         <h3>{service.serviceName}</h3>
-                        <p>{service.description}</p>
-                        <p>Время: {service.time}</p>
+                        <p>Описание: {service.description}</p>
                         <p>Цена: {service.price}</p>
                     </div>
                 ))

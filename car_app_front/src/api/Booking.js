@@ -1,5 +1,5 @@
 
-const Booking = async ({ connection, selectedOrganization, confirmationSlot, selectedService }) => {
+const Booking = async ({ connection, selectedOrganization, confirmationSlot, selectedService, description }) => {
     if (connection) {
         try {
             const { date, timeSlot } = confirmationSlot;
@@ -8,8 +8,8 @@ const Booking = async ({ connection, selectedOrganization, confirmationSlot, sel
             const bookingDateTime = new Date(
                 `${date.split("T")[0]}T${timeSlot}Z`
             ).toISOString();
-
-            await connection.invoke('RequestBooking', selectedOrganization, selectedService.id, bookingDateTime);
+            console.log("1111111", description);
+            await connection.invoke('RequestBooking', selectedOrganization, selectedService.id, bookingDateTime, description);
 
         } catch (e) {
             console.error('Bookings.js request failed: ', e);

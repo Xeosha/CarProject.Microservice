@@ -5,30 +5,29 @@ const Bookings = ({ clientId, connection, requests, setRequests }) => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [noServicesMessage, setNoServicesMessage] = useState(false);
+    const userId = clientId;
+    const mode = "client";
 
+    const fetchServices = async () => {
+        setLoading(true);
+        setNoServicesMessage(false);
+
+        const filteredServices = await GetAllBookings({ userId, mode });
+
+        if (filteredServices && filteredServices.length > 0) {
+            setBookings(filteredServices);
+        } else {
+            setBookings([]);
+            // Set a timer to show the "no services" message
+            setTimeout(() => {
+                setNoServicesMessage(true);
+            }, 5000);
+        }
+
+        setLoading(false);
+    };
     // Initial fetch of all bookings
     useEffect(() => {
-        const fetchServices = async () => {
-            setLoading(true);
-            setNoServicesMessage(false);
-
-            const userId = clientId;
-            const mode = "client";
-            const filteredServices = await GetAllBookings({ userId, mode });
-
-            if (filteredServices && filteredServices.length > 0) {
-                setBookings(filteredServices);
-            } else {
-                setBookings([]);
-                // Set a timer to show the "no services" message
-                setTimeout(() => {
-                    setNoServicesMessage(true);
-                }, 5000);
-            }
-
-            setLoading(false);
-        };
-
         fetchServices();
     }, [clientId]);
 
@@ -37,20 +36,7 @@ const Bookings = ({ clientId, connection, requests, setRequests }) => {
         if (connection) {
             // Добавляем обработчик события в дочернем элементе
             connection.on('Notify', (booking) => {
-                console.log(booking);
-                setBookings(prevBookings => {
-                    // Проверяем, существует ли уже booking с таким же bookingId
-                    const isDuplicate = prevBookings.some(b => b.bookingId === booking.bookingId);
-                    if (isDuplicate) {
-                        // Заменяем объект с тем же bookingId на новый объект
-                        return prevBookings.map(b =>
-                            b.bookingId === booking.bookingId ? booking : b
-                        );
-                    } else {
-                        // Добавляем новый объект, если его нет в массиве
-                        return [...prevBookings, booking];
-                    }
-                });
+                fetchServices();
             });
 
             // Очищаем обработчик при размонтировании компонента
@@ -63,27 +49,40 @@ const Bookings = ({ clientId, connection, requests, setRequests }) => {
 
     return (
         <div>
-            {/* Bookings section */}
             <div>
                 {loading ? (
-                    <p>Загрузка услуг...</p>
-                ) : bookings.length > 0 ? (
-                    bookings.map(booking => (
-                        <div key={booking.bookingId}>
-                            <h3>{booking.userId}</h3>
-                            <p>Время: {booking.bookingTime}</p>
-                            <p>Статус: {booking.bookingStatus}</p>
-                            <p>Записи: {booking.notes}</p>
-                        </div>
-                    ))
-                ) : noServicesMessage ? (
-                    <p>У вашей организации ещё нет услуг</p>
+                    <p>Загрузка записей...</p>
+                ) : bookings.filter(booking => booking.serviceOrg !== null).length > 0 ? (
+                    bookings
+                        .filter(booking => booking.serviceOrg !== null) // Фильтруем записи с непустым serviceOrg
+                        .map(booking => (
+                            <div key={booking.bookingId}>
+                                <h3>{booking.serviceOrg.serviceName}</h3>
+                                <p>Место: {booking.serviceOrg.organizationName}</p>
+                                <p>
+                                    Время:{" "}
+                                    {booking.bookingTime.split("T")[0] + " " +
+                                        booking.bookingTime.split("T")[1].split("Z")[0]}
+                                </p>
+                                <p>
+                                    Статус:{" "}
+                                    {booking.bookingStatus > 1
+                                        ? "Отказ"
+                                        : booking.bookingStatus > 0
+                                            ? "Подтверждено"
+                                            : "Заявка в обработке"}
+                                </p>
+                                <p>Цена: {booking.serviceOrg.price}</p>
+                                <p>Комментарий: {booking.notes}</p>
+                            </div>
+                        ))
                 ) : (
-                    <p>Загрузка услуг...</p>
+                    <p>У вас ещё нет записей</p>
                 )}
             </div>
         </div>
     );
+
 };
 
 export default Bookings;

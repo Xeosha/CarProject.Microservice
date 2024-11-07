@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Services from "../client/Services";
 import Organizations from "../client/Organizations";
 import TimeSlot from "../client/TimeSlot";
@@ -21,7 +21,7 @@ const ClientPage = ({ user, connection, requests, setRequests }) => {
 
 
 
-    const toBook = async () => {
+    const toBook = async (description) => {
         if (connection && selectedOrganization && confirmationSlot && selectedService) {
             try {
                 // Call the Bookings.js function to send the booking request
@@ -29,7 +29,8 @@ const ClientPage = ({ user, connection, requests, setRequests }) => {
                     connection,
                     selectedOrganization,
                     confirmationSlot,
-                    selectedService
+                    selectedService,
+                    description
                 });
 
                 // Show success message in the modal
@@ -71,7 +72,7 @@ const ClientPage = ({ user, connection, requests, setRequests }) => {
             <h3>Выберите услугу:</h3>
             <Services services={services}
                       setServices={setServices}
-                      selectedServises={selectedService}
+                      selectedService={selectedService}
                       setSelectedService={setSelectedService}
                       setOrganizations={setOrganizations}/>
 
