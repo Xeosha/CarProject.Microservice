@@ -24,13 +24,13 @@ namespace BookingService.Application.Services
             return await _bookingsRepository.GetById(bookingId);
         }
 
-        public async Task<Booking> CreateBooking(Guid userId, Guid serviceOrganizationId, DateTime bookingTime, string notes)
+        public async Task<Booking> CreateBooking(Guid userId, Guid serviceOrganizationId, DateTime bookingTime)
         {
             var bookingId = Guid.NewGuid();
 
             // здесь проверить, что такого айди нет
                 
-            var booking = Booking.Create(bookingId, userId, serviceOrganizationId, bookingTime, notes);
+            var booking = Booking.Create(bookingId, userId, serviceOrganizationId, bookingTime, "123");
 
             await _bookingsRepository.Add(booking);
 
