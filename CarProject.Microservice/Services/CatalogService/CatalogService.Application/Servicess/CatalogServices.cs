@@ -9,26 +9,27 @@ namespace CatalogService.Application.Servicess
     {
         private IServiceRepository _serviceRepository;
         private IServiceOrgRepository _serviceOrgRepository;
-        private IDailyWorkingHoursRepository _dailyWorkingHoursRepository;
+        //private IDailyWorkingHoursRepository _dailyWorkingHoursRepository;
         private IOrganizationsRepository _organizationsRepository;
 
 
         public CatalogServices(IServiceRepository serviceRepository, 
             IServiceOrgRepository serviceOrgRepository, 
-            IDailyWorkingHoursRepository dailyWorkingHoursRepository,
+           //IDailyWorkingHoursRepository dailyWorkingHoursRepository,
             IOrganizationsRepository organizationsRepository
             )
         {
             _serviceRepository = serviceRepository;
             _serviceOrgRepository = serviceOrgRepository;
-            _dailyWorkingHoursRepository = dailyWorkingHoursRepository;
+            //_dailyWorkingHoursRepository = dailyWorkingHoursRepository;
             _organizationsRepository = organizationsRepository;
         }
 
-        public async Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId)
-        {
-            return await _dailyWorkingHoursRepository.GetAllTimes(organizationServiceId);
-        }
+        //public async Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId)
+       // {
+        //    return await _dailyWorkingHoursRepository.GetAllTimes(organizationServiceId);
+        //}
+
         public async Task AddServiceToOrg(Guid orgId, Guid serviceId, int price, string description)
         {
             var model = new ServiceOrg()

@@ -19,6 +19,7 @@ namespace BookingService.Application.Services
         }
 
 
+
         public async Task<List<AvailableDayDto>> CalculateAvailableSlots(Guid organizationServiceId)
         {
             DateTime startDate = DateTime.UtcNow; // Начало текущего времени

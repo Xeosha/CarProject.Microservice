@@ -26,5 +26,10 @@ namespace BookingService.Domain.Models
 
             return booking;
         }
+
+        public Booking()
+        {
+
+        }
     }
 }

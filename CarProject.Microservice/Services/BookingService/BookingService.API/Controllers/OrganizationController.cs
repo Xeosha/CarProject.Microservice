@@ -12,13 +12,11 @@ namespace BookingService.API.Controllers
     public class OrganizationController : ControllerBase
     {
         private readonly IBookingService _bookingService;
-        private readonly IHubContext<NotificationBookingHub, IBookingClient> _hubContext;
         private readonly ILogger<OrganizationController> _logger;
 
-        public OrganizationController(IBookingService bookingService, IHubContext<NotificationBookingHub, IBookingClient> hubContext, ILogger<OrganizationController> logger)
+        public OrganizationController(IBookingService bookingService, ILogger<OrganizationController> logger)
         {
             _bookingService = bookingService;
-            _hubContext = hubContext;
             _logger = logger;
         }
 

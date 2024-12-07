@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIGateway", "APIGateway", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dto", "Dto", "{3A389AF4-5B88-4955-A545-B83374B83C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareDTO", "Services\Share\ShareDTO\ShareDTO.csproj", "{EB0126A7-2F85-4D11-8D3C-1F77A872B100}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareDTO", "Services\Share\ShareDTO\ShareDTO.csproj", "{EB0126A7-2F85-4D11-8D3C-1F77A872B100}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

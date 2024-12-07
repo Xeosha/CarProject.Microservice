@@ -12,9 +12,11 @@ namespace CatalogService.API.Controllers
     {
 
         private readonly ICatalogServices _catalogServices;
-        public CatalogController(ICatalogServices catalogServices) 
+        private readonly IScheduleService _scheduleService;
+        public CatalogController(ICatalogServices catalogServices, IScheduleService scheduleService) 
         {
             _catalogServices = catalogServices;
+            _scheduleService = scheduleService; 
         }
 
 
@@ -31,7 +33,7 @@ namespace CatalogService.API.Controllers
         [HttpGet("getWorkingHours")]
         public async Task<List<WorkingHoursDto>> GetWorkingHours(Guid organizationServiceId)
         {
-            return await _catalogServices.GetWorkingHours(organizationServiceId);
+            return await _scheduleService.GetWorkingHours(organizationServiceId);
         }
     }
 }

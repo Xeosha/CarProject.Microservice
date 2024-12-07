@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CatalogService.Domain.DTOs.CreateServiceDto">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAQAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOs\CreateServiceDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CatalogService.Domain.DTOs.UpdateServiceDto">
+    <Position X="10" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAQAgAAAAAAAAAAAAAAAEAAAAAAAAAAAACAA=</HashCode>
+      <FileName>DTOs\UpdateServiceDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CatalogService.Domain.Interfaces.Models.Organization">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAIAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Models\Organization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CatalogService.Domain.Interfaces.Models.ServiceModel">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Models\ServiceModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CatalogService.Domain.Interfaces.Models.ServiceOrg">
+    <Position X="1.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Interfaces\Models\ServiceOrg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CatalogService.Domain.Interfaces.Repositories.IDailyWorkingHoursRepository">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Repositories\IDailyWorkingHoursRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CatalogService.Domain.Interfaces.Repositories.IOrganizationsRepository">
+    <Position X="7.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Interfaces\Repositories\IOrganizationsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CatalogService.Domain.Interfaces.Repositories.IServiceOrgRepository">
+    <Position X="6" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Repositories\IServiceOrgRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CatalogService.Domain.Interfaces.Repositories.IServiceRepository">
+    <Position X="8" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Interfaces\Repositories\IServiceRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CatalogService.Domain.Interfaces.ICatalogServices">
+    <Position X="4.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAQAAAAAAAQAAAAAAAAAAAAAAAEAAABCA=</HashCode>
+      <FileName>Interfaces\ICatalogServices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CatalogService.Domain.Interfaces.IScheduleService">
+    <Position X="2" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IScheduleService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
