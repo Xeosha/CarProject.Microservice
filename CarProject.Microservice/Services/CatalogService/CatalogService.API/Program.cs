@@ -3,6 +3,7 @@ using CatalogService.Domain.Interfaces;
 using CatalogService.Domain.Interfaces.Repositories;
 using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Repositories;
+using CatalogService.Infrastructure.Repositories.SQLQueries;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 
@@ -38,7 +39,7 @@ builder.Services.AddDbContext<CatalogServiceDbContext>(
 // тут типа DI, надо бы вынести в слоях в классы
 builder.Services.AddScoped<IOrganizationsRepository, OrganizationRepository>();
 builder.Services.AddScoped<IServiceOrgRepository, ServiceOrgRepository>();
-builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IServiceRepository, SQLServiceRepository>();
 builder.Services.AddScoped<IDailyWorkingHoursRepository, DailyWorkingHoursRepository>();
 builder.Services.AddTransient<ICatalogServices, CatalogServices>();
 
