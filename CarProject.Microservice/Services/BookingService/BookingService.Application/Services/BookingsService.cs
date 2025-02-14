@@ -24,7 +24,7 @@ namespace BookingService.Application.Services
             return await _bookingsRepository.GetById(bookingId);
         }
 
-        public async Task<Booking> CreateBooking(Guid userId, Guid serviceOrganizationId, DateTime bookingTime)
+        public async Task<Booking> CreateBooking(Guid userId, Guid serviceOrganizationId, DateTime bookingTime, string notes)
         {
             var bookingId = Guid.NewGuid();
 

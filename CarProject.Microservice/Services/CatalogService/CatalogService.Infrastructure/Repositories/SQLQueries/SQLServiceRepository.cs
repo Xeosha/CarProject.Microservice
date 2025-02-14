@@ -88,16 +88,3 @@ namespace CatalogService.Infrastructure.Repositories.SQLQueries
         }
     }
 }
-== null) return null;
-
-                return new ServiceModel
-                {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Description = entity.Description,
-                };
-            }
-        }
-    }
-
-}
